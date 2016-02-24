@@ -3,13 +3,13 @@
 import React, {PropTypes} from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import FuelSavingsApp from '../components/FuelSavingsApp';
+import HomePage from '../components/HomePage';
 import * as actions from '../actions/fuelSavingsActions';
 
 class App extends React.Component {
   render() {
     return (
-      <FuelSavingsApp appState={this.props.appState} actions={this.props.actions}/>
+      <HomePage appState={this.props.appState} actions={this.props.actions}/>
     );
   }
 }
