@@ -6,7 +6,10 @@ import React, {PropTypes} from 'react';
 
 const AboutPage = () => {
     return (
-      <h1>About</h1>
+      <div>
+        <h1>About</h1>
+        <p>This application uses React, Redux, React Router and a variety of other helpful libraries.</p>
+      </div>
     );
 };
 
