@@ -13,4 +13,4 @@ const HomePage = () => {
   );
 };
 
-module.exports = HomePage;
+export default HomePage;
