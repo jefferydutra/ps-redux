@@ -1,5 +1,5 @@
 export const LOADING = 'LOADING';
 export const LOADED_AUTHORS = 'LOADED_AUTHORS';
-// export const CREATED_AUTHOR = 'CREATED_AUTHOR';
-// export const UPDATED_AUTHOR = 'UPDATED_AUTHOR';
+export const CREATED_AUTHOR = 'CREATED_AUTHOR';
+export const UPDATED_AUTHOR = 'UPDATED_AUTHOR';
 export const DELETED_AUTHOR = 'DELETED_AUTHOR';

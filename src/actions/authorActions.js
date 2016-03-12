@@ -9,14 +9,14 @@ function loadedAuthors(authors) {
 	return { type: types.LOADED_AUTHORS, authors: authors };
 }
 
-//function createdAuthor(author) {
-//	return { type: CREATED_AUTHOR, author: author };
-//}
-//
-//function updatedAuthor(author) {
-//	return { type: UPDATED_AUTHOR, author: author };
-//}
-//
+function createdAuthor(author) {
+	return { type: types.CREATED_AUTHOR, author: author };
+}
+
+function updatedAuthor(author) {
+	return { type: types.UPDATED_AUTHOR, author: author };
+}
+
 function deletedAuthor(id) {
 	return { type: types.DELETED_AUTHOR, id: id };
 }
@@ -37,24 +37,24 @@ export function loadAuthors() {
 	};
 }
 
-//export function createAuthor(author) {
-//    return function(dispatch) {
-//        dispatch(loading());
-//        return AuthorApi.saveAuthor(author).then(function(author) {
-//            dispatch(createdAuthor(author));
-//        }).catch(handleError);
-//    };
-//}
-//
-//export function updateAuthor(author) {
-//    return function(dispatch) {
-//        dispatch(loading());
-//        return AuthorApi.updateAuthor(author).then(function(author) {
-//            dispatch(updatedAuthor(author));
-//        }).catch(handleError);
-//    };
-//}
-//
+export function createAuthor(author) {
+	return function(dispatch) {
+		dispatch(loading());
+		return AuthorApi.saveAuthor(author).then(function(author) {
+			dispatch(createdAuthor(author));
+		}).catch(handleError);
+	};
+}
+
+export function updateAuthor(author) {
+	return function(dispatch) {
+		dispatch(loading());
+		return AuthorApi.saveAuthor(author).then(function(author) {
+			dispatch(updatedAuthor(author));
+		}).catch(handleError);
+	};
+}
+
 export function deleteAuthor(authorId) {
 	return function(dispatch) {
 		dispatch(loading());

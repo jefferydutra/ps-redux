@@ -20,15 +20,15 @@ export default function authorAppState(state = initialState, action) {
     case types.LOADED_AUTHORS:
       return Object.assign({}, state, { authors: action.authors, loading: false });
 
-    //case Actions.CREATED_AUTHOR:
-    //  newState = Object.assign({}, state, { loading: false });
-    //  newState.authors.push(action.author);
-    //  return newState;
-    //
-    //case Actions.UPDATED_AUTHOR:
-    //  newState = Object.assign({}, state, { loading: false });
-    //  newState.authors.splice(action.author, 1);
-    //  return newState;
+    case types.CREATED_AUTHOR:
+     newState = Object.assign({}, state, { loading: false });
+     newState.authors.push(action.author);
+     return newState;
+
+    case types.UPDATED_AUTHOR:
+     newState = Object.assign({}, state, { loading: false });
+     newState.authors.splice(action.author, 1);
+     return newState;
 
     case types.DELETED_AUTHOR:
       authors = state.authors.filter((author) => author.id !== action.id);

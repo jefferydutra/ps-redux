@@ -46,7 +46,9 @@ class AuthorApi {
       authors.push(author);
     }
 
-    return Object.assign({}, author);
+    return new Promise(function(resolve, reject) {
+      resolve(Object.assign({}, author));  
+    });
   }
 
   static deleteAuthor(authorId) {
