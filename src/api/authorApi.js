@@ -24,7 +24,9 @@ const generateId = (author) => {
 
 class AuthorApi {
   static getAllAuthors() {
-    return Object.assign({}, authors);
+    return new Promise(function(resolve, reject) {
+      resolve(Object.assign([], authors));
+    });
   }
 
   static getAuthorById(id) {
@@ -33,9 +35,6 @@ class AuthorApi {
   }
 
   static saveAuthor(author) {
-    //pretend an ajax call to web api is made here
-    //console.log('Pretend this just saved the author to the DB via AJAX call...');
-
     if (author.id) {
       const existingAuthorIndex = authors.findIndex(a => a.id == author.id);
       authors.splice(existingAuthorIndex, 1, author);
@@ -51,9 +50,11 @@ class AuthorApi {
   }
 
   static deleteAuthor(authorId) {
-    //console.log('Pretend this just deleted the author from the DB via an AJAX call...');
     const indexOfAuthorToDelete = authors.findIndex(author => { author.authorId == authorId; } );
-    authors.splice(indexOfAuthorToDelete, 1);
+    return new Promise(function(resolve, reject) {
+      authors.splice(indexOfAuthorToDelete, 1);
+      resolve();
+    });
   }
 }
 

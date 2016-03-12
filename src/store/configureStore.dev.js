@@ -5,20 +5,14 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
 
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+
 export default function configureStore(initialState) {
   let store;
   if (window.devToolsExtension) { //Enable Redux devtools if the extension is installed in developer's browser
-    store = window.devToolsExtension()(createStore)(
-      rootReducer,
-      initialState,
-      applyMiddleware(thunk)
-    );
+    store = createStoreWithMiddleware(rootReducer, initialState);
   } else {
-    store = createStore(
-      rootReducer,
-      initialState,
-      applyMiddleware(thunk)
-    );
+    store = createStoreWithMiddleware(rootReducer, initialState);
   }
 
   if (module.hot) {

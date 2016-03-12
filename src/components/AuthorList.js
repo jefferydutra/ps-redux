@@ -5,7 +5,7 @@ const AuthorList = (props) => {
   const createAuthorRow = (author) => {
     return (
       <tr key={author.id}>
-        <td><a href="#" onClick={props.deleteAuthor.bind(author.id)}>Delete</a></td>
+        <td><a href="#" onClick={(event) => {event.preventDefault(); props.deleteAuthor(author.id);}}>Delete</a></td>
         <td><Link to={'/author/' + author.id}>{author.id}</Link></td>
         <td>{author.firstName} {author.lastName}</td>
       </tr>
@@ -30,8 +30,9 @@ const AuthorList = (props) => {
   );
 };
 
-AuthorList.props = {
-  authors: PropTypes.array.isRequired
+AuthorList.propTypes = {
+  authors: PropTypes.array.isRequired,
+  deleteAuthor: PropTypes.func.isRequired
 };
 
 module.exports = AuthorList;

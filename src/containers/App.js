@@ -13,7 +13,6 @@ class App extends React.Component {
   }
 
   render() {
-    debugger;
     return (
       <div>
         <Header/>
@@ -31,18 +30,21 @@ App.propTypes = {
   children: PropTypes.object.isRequired
 };
 
-// Note that we're using the ownProps param here that
-// is sent from React Router because we can't rely
-// upon Redux's state since React Router's
+// We can use the ownProps param here that
+// is sent from React Router to get location data.
+// We can't read the location state directly from the Redux store.
+// because React Router operates asynchronously
+// (to handle things such as dynamically-loaded components)
+// and your component tree may not yet be updated in sync with your Redux state
 // More info: https://github.com/reactjs/react-router-redux#how-do-i-access-router-state-in-a-container-component
 function mapStateToProps(state, ownProps) {
-  debugger;
   return {
-    appState: ownProps
+    appState: state.authorReducer
   };
 }
 
 function mapDispatchToProps(dispatch) {
+  //this method would send all actions down...
   return {
     actions: bindActionCreators(actions, dispatch)
   };

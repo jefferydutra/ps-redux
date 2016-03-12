@@ -2,7 +2,7 @@
 // data or actions, this doesn't
 // contain the usual Redux container boilerplate
 // for mapState and mapDispatch.
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 const AboutPage = () => {
     return (

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import authorReducer from './authors';
+import authorReducer from './authorReducer';
 
 const rootReducer = combineReducers({
   authorReducer,
