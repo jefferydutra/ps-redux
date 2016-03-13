@@ -9,7 +9,7 @@ const initialState = {
 // create a copy of the state passed and set new values on the copy.
 // Note that I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function authorAppState(state = initialState, action) {
+export default function authorState(state = initialState, action) {
   let newState;
   let authors;
   let existingAuthorIndex;

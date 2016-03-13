@@ -6,19 +6,19 @@ function loading() {
 }
 
 function loadedAuthors(authors) {
-	return { type: types.LOADED_AUTHORS, authors: authors };
+	return { type: types.LOADED_AUTHORS, authors };
 }
 
 function createdAuthor(author) {
-	return { type: types.CREATED_AUTHOR, author: author };
+	return { type: types.CREATED_AUTHOR, author };
 }
 
 function updatedAuthor(author) {
-	return { type: types.UPDATED_AUTHOR, author: author };
+	return { type: types.UPDATED_AUTHOR, author };
 }
 
 function deletedAuthor(id) {
-	return { type: types.DELETED_AUTHOR, id: id };
+	return { type: types.DELETED_AUTHOR, id };
 }
 
 function handleError(error) {
