@@ -8,8 +8,6 @@ class ManageAuthorPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    context.router; //tell it to pull in React Router context.
-
     this.state = {
       author: { id: '', firstName: '', lastName: '' },
       errors: {},
@@ -27,7 +25,7 @@ class ManageAuthorPage extends React.Component {
 	componentDidMount() {
 		const route = this.props.route;
 		const router = this.context.router;
-		router.setRouteLeaveHook(route, this.routerWillLeave);
+		router.setRouteLeaveHook(route, this.routerWillLeave.bind(this));
 	}
 
   routerWillLeave(nextLocation) {
@@ -70,7 +68,6 @@ class ManageAuthorPage extends React.Component {
 		}
 
 		if (this.state.author.id) {
-      debugger;
 			this.props.actions.updateAuthor(this.state.author);
 		} else {
 			this.props.actions.createAuthor(this.state.author);
@@ -113,6 +110,11 @@ ManageAuthorPage.propTypes = {
   appState: PropTypes.object.isRequired,
   params: PropTypes.object,
   route: PropTypes.object.isRequired
+};
+
+//Pull in the React Router context.
+ManageAuthorPage.contextTypes = {
+  router: React.PropTypes.object.isRequired
 };
 
 const connectedManageAuthorPage = connect(

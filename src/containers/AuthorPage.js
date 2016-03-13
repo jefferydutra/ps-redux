@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import AuthorList from '../components/AuthorList';
 import * as authorActions from '../actions/authorActions';
+import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -20,6 +21,7 @@ class AuthorPage extends React.Component {
     return (
       <div>
         <h1>Authors</h1>
+        <Link to="/author" className="btn btn-default">Add Author</Link>
         <AuthorList
           authors={this.props.appState.authors}
           deleteAuthor={this.props.actions.deleteAuthor} />

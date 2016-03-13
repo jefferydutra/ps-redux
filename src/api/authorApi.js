@@ -47,7 +47,7 @@ class AuthorApi {
     }
 
     return new Promise(function(resolve, reject) {
-      resolve(Object.assign({}, author));  
+      resolve(Object.assign({}, author));
     });
   }
 
