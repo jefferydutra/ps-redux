@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
-import * as authorActions from '../actions/authorActions';
+import * as authorActions from '../../actions/authorActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AuthorForm from '../components/AuthorForm';
+import AuthorForm from './AuthorForm';
 
 class ManageAuthorPage extends React.Component {
   constructor(props, context) {
@@ -16,7 +16,7 @@ class ManageAuthorPage extends React.Component {
   }
 
 	componentWillMount() {
-		const authorId = this.props.params.id; //from the path '/author:id'
+		const authorId = this.props.params.id; // from the path '/author:id'
 		if (authorId) {
 			this.setState({author: this.props.appState.authors.find( (author) => author.id == authorId) });
 		}

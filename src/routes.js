@@ -1,11 +1,13 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
-import App from './containers/App';
-import HomePage from './containers/HomePage';
-import AuthorPage from './containers/AuthorPage';
-import ManageAuthorPage from './containers/ManageAuthorPage';
-import AboutPage from './containers/AboutPage';
-import NotFoundPage from './containers/NotFoundPage';
+import App from './components/App';
+import HomePage from './components/home/HomePage';
+import AuthorPage from './components/author/AuthorPage';
+import ManageAuthorPage from './components/author/ManageAuthorPage';
+import CoursePage from './components/course/CoursePage';
+import ManageCoursePage from './components/course/ManageCoursePage';
+import AboutPage from './components/about/AboutPage';
+import NotFoundPage from './components/NotFoundPage';
 
 export default (
   <Route path="/" component={App}>
@@ -13,6 +15,9 @@ export default (
     <Route path="authors" component={AuthorPage} />
     <Route path="author/:id" component={ManageAuthorPage} />
     <Route path="author" component={ManageAuthorPage} />
+    <Route path="courses" component={CoursePage} />
+    <Route path="course/:id" component={ManageCoursePage} />
+    <Route path="course" component={ManageCoursePage} />
     <Route path="about" component={AboutPage} />
     <Route path="*" component={NotFoundPage} />
   </Route>

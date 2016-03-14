@@ -1,20 +1,22 @@
 import React, {PropTypes} from 'react';
-import AuthorList from '../components/AuthorList';
-import * as authorActions from '../actions/authorActions';
+import * as authorActions from '../../actions/authorActions';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import AuthorList from './AuthorList';
 
 class AuthorPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     //load author data if it hasn't already been loaded.
     if (this.props.appState.authors.length == 0) {
       this.props.actions.loadAuthors();
     }
+  }
+
+  deleteAuthor(event, authorId) {
+    event.preventDefault();
+    this.props.actions.deleteAuthor(authorId);
+    alert('Author deleted.');
   }
 
   render() {
@@ -24,11 +26,16 @@ class AuthorPage extends React.Component {
         <Link to="/author" className="btn btn-default">Add Author</Link>
         <AuthorList
           authors={this.props.appState.authors}
-          deleteAuthor={this.props.actions.deleteAuthor} />
+          deleteAuthor={this.deleteAuthor.bind(this)} />
       </div>
     );
   }
 }
+
+AuthorPage.propTypes = {
+  actions: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -41,11 +48,6 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators(authorActions, dispatch)
   };
 }
-
-AuthorPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  appState: PropTypes.object.isRequired
-};
 
 const connectedAuthorPage = connect(
   mapStateToProps,

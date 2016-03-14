@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from './TextInput';
+import TextInput from '../common/TextInput';
 
 const AuthorForm = ({author, onSave, onChange, errors}) => {
 	return (

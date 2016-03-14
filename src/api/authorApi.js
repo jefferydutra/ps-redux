@@ -30,8 +30,9 @@ class AuthorApi {
   }
 
   static getAuthorById(id) {
-    const author = authors.find(author => id == id);
-    return Object.assign({}, author);
+    return new Promise(function(resolve, reject) {
+      resolve(authors.find(author => id == id));
+    });
   }
 
   static saveAuthor(author) {
