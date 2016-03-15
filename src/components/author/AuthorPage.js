@@ -8,7 +8,7 @@ import AuthorList from './AuthorList';
 class AuthorPage extends React.Component {
   componentWillMount() {
     //load author data if it hasn't already been loaded.
-    if (this.props.appState.authors.length == 0) {
+    if (this.props.authors.length == 0) {
       this.props.actions.loadAuthors();
     }
   }
@@ -25,7 +25,7 @@ class AuthorPage extends React.Component {
         <h1>Authors</h1>
         <input type="submit" value="Add Author" className="btn btn-default" onClick={() => {browserHistory.push('/author');}} />
         <AuthorList
-          authors={this.props.appState.authors}
+          authors={this.props.authors}
           deleteAuthor={this.deleteAuthor.bind(this)} />
       </div>
     );
@@ -34,12 +34,12 @@ class AuthorPage extends React.Component {
 
 AuthorPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  appState: PropTypes.object.isRequired
+  authors: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
   return {
-    appState: state.authorReducer
+    authors: state.authorReducer.authors
   };
 }
 
