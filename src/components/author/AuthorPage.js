@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import * as authorActions from '../../actions/authorActions';
-import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import AuthorList from './AuthorList';
 
 class AuthorPage extends React.Component {
@@ -23,7 +23,7 @@ class AuthorPage extends React.Component {
     return (
       <div>
         <h1>Authors</h1>
-        <Link to="/author" className="btn btn-default">Add Author</Link>
+        <input type="submit" value="Add Author" className="btn btn-default" onClick={() => {browserHistory.push('/author');}} />
         <AuthorList
           authors={this.props.appState.authors}
           deleteAuthor={this.deleteAuthor.bind(this)} />

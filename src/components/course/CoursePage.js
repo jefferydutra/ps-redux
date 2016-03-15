@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import * as courseActions from '../../actions/courseActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 import CourseList from './CourseList';
 
 //Note that this is a controller view, which is why it gets data
@@ -29,7 +30,7 @@ class CoursePage extends React.Component {
           Also, note the structure of this comment, have to
           create an empty JS expression to comment since this is
           all parsed as JS */}
-          <input type="submit" value="Add Course" className="btn btn-default" onClick={() => {this.transitionTo('addCourse');}} />
+          <input type="submit" value="Add Course" className="btn btn-default" onClick={() => {browserHistory.push('/course');}} />
           <CourseList
             deleteCourse={this.deleteCourse.bind(this)}
             courses={this.props.appState.courses}/>
