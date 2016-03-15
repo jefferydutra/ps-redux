@@ -18,7 +18,7 @@ class ManageAuthorPage extends React.Component {
 	componentWillMount() {
 		const authorId = this.props.params.id; // from the path '/author:id'
 		if (authorId) {
-			this.setState({author: this.props.appState.authors.find( (author) => author.id == authorId) });
+			this.setState({author: this.props.authors.find( (author) => author.id == authorId) });
 		}
 	}
 
@@ -44,19 +44,19 @@ class ManageAuthorPage extends React.Component {
 
 	authorFormIsValid() {
 		let formIsValid = true;
-		this.state.errors = {}; //clear any previous errors.
+		let errors = {};
 
 		if (this.state.author.firstName.length < 3) {
-			this.state.errors.firstName = 'First name must be at least 3 characters.';
+			errors.firstName = 'First name must be at least 3 characters.';
 			formIsValid = false;
 		}
 
 		if (this.state.author.lastName.length < 3) {
-			this.state.errors.lastName = 'Last name must be at least 3 characters.';
+			errors.lastName = 'Last name must be at least 3 characters.';
 			formIsValid = false;
 		}
 
-		this.setState({errors: this.state.errors});
+		this.setState({errors: errors});
 		return formIsValid;
 	}
 
@@ -95,7 +95,7 @@ class ManageAuthorPage extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    appState: state.authorReducer
+    authors: state.authorReducer.authors
   };
 }
 
@@ -107,7 +107,13 @@ function mapDispatchToProps(dispatch) {
 
 ManageAuthorPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  appState: PropTypes.object.isRequired,
+  authors: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired
+    })
+  ),
   params: PropTypes.object,
   route: PropTypes.object.isRequired
 };
