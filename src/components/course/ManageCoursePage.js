@@ -16,7 +16,6 @@ class ManageCoursePage extends React.Component {
   }
 
   componentWillMount() {
-    debugger;
     const courseId = this.props.params.id; // from the path `/course/:id`
     if (courseId) {
       this.setState({course: this.props.courses.find( (course) => course.id == courseId) });
@@ -36,7 +35,6 @@ class ManageCoursePage extends React.Component {
   }
 
   getAuthorsFormattedForDropdown(author) {
-    debugger;
     return this.props.authors.map((author) => {
       return {
         value: author.id,
@@ -47,18 +45,19 @@ class ManageCoursePage extends React.Component {
 
   courseFormIsValid() {
     let formIsValid = true;
+    let errors = {};
 
     if (this.state.course.length < 5) {
-      this.state.errors.title = 'Title must be at least 5 characters.';
+      errors.title = 'Title must be at least 5 characters.';
       formIsValid = false;
     }
 
     if (!this.state.course.author) {
-      this.state.errors.author = 'Author is required';
+      errors.author = 'Author is required';
       formIsValid = false;
     }
 
-    this.setState({errors: this.state.errors});
+    this.setState({errors: errors});
     return formIsValid;
   }
 
@@ -89,8 +88,9 @@ class ManageCoursePage extends React.Component {
   updateCourseState(event) {
     this.setState({dirty: true});
     const field = event.target.name;
-    this.state.course[field] = event.target.value;
-    return this.setState({course: this.state.course});
+    let course = this.state.course;
+    course[field] = event.target.value;
+    return this.setState({course: course});
   }
 
   render() {
@@ -98,8 +98,8 @@ class ManageCoursePage extends React.Component {
     return (
       <CourseForm
         course={this.state.course}
-        onChange={this.updateCourseState}
-        onSave={this.saveCourse}
+        onChange={this.updateCourseState.bind(this)}
+        onSave={this.saveCourse.bind(this)}
         allAuthors={allAuthors}
         errors={this.state.errors} />
     );
@@ -121,8 +121,19 @@ function mapDispatchToProps(dispatch) {
 
 ManageCoursePage.propTypes = {
   actions: PropTypes.object.isRequired,
-  courses: PropTypes.object.isRequired,
-  authors: PropTypes.object.isRequired,
+  courses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    watchHref: PropTypes.string.isRequired,
+    authorId: PropTypes.string.isRequired,
+    length: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired
+  })),
+  authors: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired
+  })),
   params: PropTypes.object,
   route: PropTypes.object.isRequired
 };
