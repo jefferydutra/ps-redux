@@ -15,12 +15,15 @@ class ManageAuthorPage extends React.Component {
     };
   }
 
-	componentWillMount() {
-		const authorId = this.props.params.id; // from the path '/author:id'
-		if (authorId) {
-			this.setState({author: this.props.authors.find( (author) => author.id == authorId) });
-		}
-	}
+  componentWillMount() {
+    const authorId = this.props.params.id; // from the path '/author:id'
+
+    if (authorId) {
+      this.props.actions.loadAuthors().then(() => {
+        this.setState({author: this.props.authors.find( (author) => author.id == authorId) });
+      });
+    }
+  }
 
 	componentDidMount() {
 		const route = this.props.route;
@@ -107,13 +110,11 @@ function mapDispatchToProps(dispatch) {
 
 ManageAuthorPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  authors: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired
-    })
-  ),
+  author: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired
+  }),
   params: PropTypes.object,
   route: PropTypes.object.isRequired
 };
