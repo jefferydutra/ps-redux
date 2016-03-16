@@ -9,10 +9,7 @@ import CourseList from './CourseList';
 //and passes it down to child components via props.
 class CoursePage extends React.Component {
   componentWillMount() {
-    //load author data if it hasn't already been loaded.
-    if (this.props.appState.courses.length == 0) {
-      this.props.actions.loadCourses();
-    }
+    this.props.actions.loadCourses();
   }
 
   deleteCourse(event, courseId) {
@@ -33,7 +30,7 @@ class CoursePage extends React.Component {
           <input type="submit" value="Add Course" className="btn btn-default" onClick={() => {browserHistory.push('/course');}} />
           <CourseList
             deleteCourse={this.deleteCourse.bind(this)}
-            courses={this.props.appState.courses}/>
+            courses={this.props.courses}/>
       </div>
     );
   }
@@ -46,7 +43,7 @@ CoursePage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    appState: state.courseReducer
+    courses: state.courseReducer.courses
   };
 }
 
