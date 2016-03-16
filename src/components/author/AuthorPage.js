@@ -1,16 +1,13 @@
-import React, {PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react';
 import * as authorActions from '../../actions/authorActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import AuthorList from './AuthorList';
 
-class AuthorPage extends React.Component {
+class AuthorPage extends Component {
   componentWillMount() {
-    //load author data if it hasn't already been loaded.
-    if (this.props.authors.length == 0) {
-      this.props.actions.loadAuthors();
-    }
+    this.props.actions.loadAuthors();
   }
 
   deleteAuthor(event, authorId) {
