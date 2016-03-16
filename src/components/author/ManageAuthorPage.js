@@ -109,6 +109,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 ManageAuthorPage.propTypes = {
+  authors: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired,
   author: PropTypes.shape({
     id: PropTypes.string.isRequired,
