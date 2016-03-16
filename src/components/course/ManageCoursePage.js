@@ -9,7 +9,7 @@ class ManageCoursePage extends React.Component {
     super(props, context);
 
     this.state = {
-      course: { id: null, watchHref: '', title: '', author: '', length: '', category: '' },
+      course: { id: '', watchHref: '', title: '', author: '', length: '', category: '' },
       dirty: false,
       errors: {}
     };
@@ -18,7 +18,9 @@ class ManageCoursePage extends React.Component {
   componentWillMount() {
     const courseId = this.props.params.id; // from the path `/course/:id`
     if (courseId) {
-      this.setState({course: this.props.courses.find( (course) => course.id == courseId) });
+      this.props.actions.loadCourses().then(() => {
+        this.setState({course: this.props.courses.find((course) => course.id == courseId)});
+      });
     }
   }
 
