@@ -22,9 +22,16 @@ export default function authorState(state = initialState, action) {
       return Object.assign({}, state, { authors: action.authors, loading: false });
 
     case types.CREATED_AUTHOR:
-     newState = Object.assign({}, state, { loading: false });
-     newState.authors.push(action.author);
-     return newState;
+      //newState = Object.assign({}, state, { loading: false });
+      //newState.authors.push(action.author);
+      //return newState;
+     return Object.assign({}, state, {
+       loading: false,
+       authors: [
+         ...state.authors,
+         action.author
+       ]
+     });
 
     case types.UPDATED_AUTHOR:
       existingAuthorIndex = state.authors.findIndex(author => author.id == action.author.id);
