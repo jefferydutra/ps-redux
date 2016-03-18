@@ -12,7 +12,7 @@ class CoursePage extends React.Component {
     actions: PropTypes.object.isRequired,
     courses: PropTypes.array.isRequired
   }
-  
+
   componentWillMount() {
     this.props.actions.loadCourses();
   }
@@ -32,10 +32,13 @@ class CoursePage extends React.Component {
           Also, note the structure of this comment, have to
           create an empty JS expression to comment since this is
           all parsed as JS */}
-          <input type="submit" value="Add Course" className="btn btn-default" onClick={() => {browserHistory.push('/course');}} />
+        <input type="submit" value="Add Course" className="btn btn-default" onClick={() => {browserHistory.push('/course');}} />
+        {
+          this.props.courses.length > 0 &&
           <CourseList
             deleteCourse={this.deleteCourse.bind(this)}
             courses={this.props.courses}/>
+        }
       </div>
     );
   }

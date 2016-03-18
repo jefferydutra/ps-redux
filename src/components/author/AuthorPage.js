@@ -26,9 +26,12 @@ class AuthorPage extends Component {
       <div>
         <h1>Authors</h1>
         <input type="submit" value="Add Author" className="btn btn-default" onClick={() => {browserHistory.push('/author');}} />
-        <AuthorList
-          authors={this.props.authors}
-          deleteAuthor={this.deleteAuthor.bind(this)} />
+        {
+          this.props.authors.length > 0 &&
+            <AuthorList
+              authors={this.props.authors}
+              deleteAuthor={this.deleteAuthor.bind(this)}/>
+        }
       </div>
     );
   }
