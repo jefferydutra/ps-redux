@@ -1,27 +1,54 @@
 import React, {PropTypes} from 'react';
-import * as courseActions from '../../actions/courseActions';
-import { bindActionCreators } from 'redux';
+import { loadCourses, updateCourse, createCourse } from '../../actions/courseActions';
+import { loadAuthors } from '../../actions/authorActions';
 import { connect } from 'react-redux';
 import CourseForm from './CourseForm';
 
 class ManageCoursePage extends React.Component {
+  static propTypes = {
+    loadCourses: PropTypes.func.isRequired,
+    createCourse: PropTypes.func.isRequired,
+    updateCourse: PropTypes.func.isRequired,
+    loadAuthors: PropTypes.func.isRequired,
+    courses: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      watchHref: PropTypes.string.isRequired,
+      authorId: PropTypes.string.isRequired,
+      length: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired
+    })),
+    authors: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired
+    })),
+    params: PropTypes.object,
+    route: PropTypes.object.isRequired
+  }
+
+  //Pull in the React Router context so router is available on this.context.router.
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
+
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      course: { id: '', watchHref: '', title: '', author: '', length: '', category: '' },
+      course: { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' },
       dirty: false,
       errors: {}
     };
   }
 
   componentWillMount() {
-    const courseId = this.props.params.id; // from the path `/course/:id`
-    if (courseId) {
-      this.props.actions.loadCourses().then(() => {
+    Promise.all([this.props.loadCourses(), this.props.loadAuthors()]).then(() => {
+      const courseId = this.props.params.id; // from the path `/course/:id`
+      if (courseId) {
         this.setState({course: this.props.courses.find((course) => course.id == courseId)});
-      });
-    }
+      }
+    });
   }
 
   componentDidMount() {
@@ -36,7 +63,7 @@ class ManageCoursePage extends React.Component {
     }
   }
 
-  getAuthorsFormattedForDropdown(author) {
+  getAuthorsFormattedForDropdown() {
     return this.props.authors.map((author) => {
       return {
         value: author.id,
@@ -54,8 +81,8 @@ class ManageCoursePage extends React.Component {
       formIsValid = false;
     }
 
-    if (!this.state.course.author) {
-      errors.author = 'Author is required';
+    if (!this.state.course.authorId) {
+      errors.authorId = 'Author is required';
       formIsValid = false;
     }
 
@@ -70,12 +97,16 @@ class ManageCoursePage extends React.Component {
       return;
     }
 
-    this.setState({dirty: false});
+    //Since setState doesn't immediately mutate this.state, need to set it separately here to assure
+    //it's updated for the check in routerWillLeave.
+    //More info: https://facebook.github.io/react/docs/component-api.html#setstate
+    this.state.dirty = false;
+    this.setState({dirty: this.state.dirty});
 
     if (this.state.course.id) {
-      this.props.actions.updateCourse(this.state.course);
+      this.props.updateCourse(this.state.course);
     } else {
-      this.props.actions.createCourse(this.state.course);
+      this.props.createCourse(this.state.course);
     }
 
     alert('Course saved.');
@@ -96,13 +127,12 @@ class ManageCoursePage extends React.Component {
   }
 
   render() {
-    const allAuthors = this.getAuthorsFormattedForDropdown();
     return (
       <CourseForm
         course={this.state.course}
         onChange={this.updateCourseState.bind(this)}
         onSave={this.saveCourse.bind(this)}
-        allAuthors={allAuthors}
+        allAuthors={this.getAuthorsFormattedForDropdown()}
         errors={this.state.errors} />
     );
   }
@@ -116,34 +146,24 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
+  // Manually wrapping action creators
+  // in dispatch calls to show an alternative
+  // to bindActionCreators
   return {
-    actions: bindActionCreators(courseActions, dispatch)
+    loadCourses: () => {
+      dispatch(loadCourses());
+    },
+    createCourse: (course) => {
+      dispatch(createCourse(course));
+    },
+    updateCourse: (course) => {
+      dispatch(updateCourse(course));
+    },
+    loadAuthors: () => {
+      dispatch(loadAuthors());
+    }
   };
 }
-
-ManageCoursePage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  courses: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    watchHref: PropTypes.string.isRequired,
-    authorId: PropTypes.string.isRequired,
-    length: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired
-  })),
-  authors: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired
-  })),
-  params: PropTypes.object,
-  route: PropTypes.object.isRequired
-};
-
-//Pull in the React Router context.
-ManageCoursePage.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 const connectedManageCoursePage = connect(
   mapStateToProps,
