@@ -35,9 +35,11 @@ class ManageCoursePage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    //Just using instance var here since it's not used in render.
+    this.formIsDirty = false;
+
     this.state = {
       course: { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' },
-      dirty: false,
       errors: {}
     };
   }
@@ -58,7 +60,7 @@ class ManageCoursePage extends React.Component {
   }
 
   routerWillLeave(nextLocation) {
-    if (this.state.dirty) {
+    if (this.formIsDirty) {
       return 'Leave without saving?';
     }
   }
@@ -97,11 +99,7 @@ class ManageCoursePage extends React.Component {
       return;
     }
 
-    //Since setState doesn't immediately mutate this.state, need to set it separately here to assure
-    //it's updated for the check in routerWillLeave.
-    //More info: https://facebook.github.io/react/docs/component-api.html#setstate
-    this.state.dirty = false;
-    this.setState({dirty: this.state.dirty});
+    this.formIsdirty = false;
 
     if (this.state.course.id) {
       this.props.updateCourse(this.state.course);
@@ -119,7 +117,7 @@ class ManageCoursePage extends React.Component {
   //onBlur instead of onChange (which is where the validate
   //function is typically mapped)
   updateCourseState(event) {
-    this.setState({dirty: true});
+    this.formIsDirty = true;
     const field = event.target.name;
     let course = this.state.course;
     course[field] = event.target.value;

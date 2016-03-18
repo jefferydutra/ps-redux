@@ -25,10 +25,13 @@ class ManageAuthorPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    // Just using instance var here since it's not used in render.
+    // Proof that this is cool. https://github.com/facebook/react/blob/master/src/addons/transitions/ReactTransitionGroup.js#L42-L44
+    this.formIsDirty = false;
+
     this.state = {
       author: { id: '', firstName: '', lastName: '' },
-      errors: {},
-      dirty: false
+      errors: {}
     };
   }
 
@@ -49,16 +52,17 @@ class ManageAuthorPage extends React.Component {
 	}
 
   routerWillLeave(nextLocation) {
-    if (this.state.dirty) {
+    if (this.formIsDirty) {
       return 'Leave without saving?';
     }
   }
 
 	setAuthorState(event) {
-		this.setState({dirty: true});
+    this.formIsDirty = true;
 		const field = event.target.name;
 		const value = event.target.value;
-		this.state.author[field] = value;
+    const author = this.state.author;
+		author[field] = value;
 		return this.setState({author: this.state.author});
 	}
 
@@ -87,17 +91,14 @@ class ManageAuthorPage extends React.Component {
 			return;
 		}
 
+    this.formIsDirty = false;
+
 		if (this.state.author.id) {
 			this.props.actions.updateAuthor(this.state.author);
 		} else {
 			this.props.actions.createAuthor(this.state.author);
 		}
 
-		//Since setState doesn't immediately mutate this.state, need to set it separately here to assure
-		//it's updated for the check in routerWillLeave.
-		//More info: https://facebook.github.io/react/docs/component-api.html#setstate
-		this.state.dirty = false;
-		this.setState({dirty: this.state.dirty});
 		alert('Author saved.');
 		this.context.router.push('/authors');
 	}
