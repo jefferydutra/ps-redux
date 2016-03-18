@@ -9,17 +9,11 @@ const initialState = {
 // create a copy of the state passed and set new values on the copy.
 // Note that I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function authorState(state = initialState, action) {
+export default function authorReducer(state = initialState, action) {
   switch (action.type) {
-    case types.LOADING:
-      return Object.assign({}, state, {
-        loading: true
-      });
-
     case types.LOADED_AUTHORS:
       return Object.assign({}, state, {
-        authors: action.authors,
-        loading: false
+        authors: action.authors
       });
 
     case types.CREATED_AUTHOR:
@@ -27,7 +21,6 @@ export default function authorState(state = initialState, action) {
       //newState.authors.push(action.author);
       //return newState;
      return Object.assign({}, state, {
-       loading: false,
        authors: [
          ...state.authors,
          action.author
@@ -36,7 +29,6 @@ export default function authorState(state = initialState, action) {
 
     case types.UPDATED_AUTHOR:
       return Object.assign({}, state, {
-        loading: false,
         authors: [
           ...state.authors.filter((author) => author.id !== action.author.id),
           action.author
@@ -45,7 +37,6 @@ export default function authorState(state = initialState, action) {
 
     case types.DELETED_AUTHOR:
       return Object.assign({}, state, {
-        loading: false,
         authors: state.authors.filter((author) => author.id !== action.id)
       });
 

@@ -1,9 +1,6 @@
 import CourseApi from '../api/courseApi';
 import * as types from '../constants/ActionTypes';
-
-function loading() {
-	return { type: types.LOADING };
-}
+import {loading, loadingComplete} from './loadingActions';
 
 function loadedCourses(courses) {
 	return { type: types.LOADED_COURSES, courses };
@@ -33,7 +30,8 @@ export function loadCourses() {
 		dispatch(loading());
 		return CourseApi.getAllCourses().then(function(courses) {
 			dispatch(loadedCourses(courses));
-		}).catch(handleError);
+      dispatch(loadingComplete());
+    }).catch(handleError);
 	};
 }
 
@@ -42,7 +40,8 @@ export function createCourse(course) {
 		dispatch(loading());
 		return CourseApi.saveCourse(course).then(function(course) {
 			dispatch(createdCourse(course));
-		}).catch(handleError);
+      dispatch(loadingComplete());
+    }).catch(handleError);
 	};
 }
 
@@ -51,7 +50,8 @@ export function updateCourse(course) {
 		dispatch(loading());
 		return CourseApi.saveCourse(course).then(function(course) {
 			dispatch(updatedCourse(course));
-		}).catch(handleError);
+      dispatch(loadingComplete());
+    }).catch(handleError);
 	};
 }
 
@@ -60,6 +60,7 @@ export function deleteCourse(courseId) {
 		dispatch(loading());
 		return CourseApi.deleteCourse(courseId).then(function() {
 			dispatch(deletedCourse(courseId));
-		}).catch(handleError);
+      dispatch(loadingComplete());
+    }).catch(handleError);
 	};
 }

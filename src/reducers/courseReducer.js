@@ -9,22 +9,15 @@ const initialState = {
 // create a copy of the state passed and set new values on the copy.
 // Note that I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function courseState(state = initialState, action) {
+export default function courseReducer(state = initialState, action) {
   switch (action.type) {
-    case types.LOADING:
-      return Object.assign({}, state, {
-        loading: true
-      });
-
     case types.LOADED_COURSES:
       return Object.assign({}, state, {
-        courses: action.courses,
-        loading: false
+        courses: action.courses
       });
 
     case types.CREATED_COURSE:
      return Object.assign({}, state, {
-       loading: false,
        courses: [...state.courses, action.course]
      });
 
@@ -33,7 +26,6 @@ export default function courseState(state = initialState, action) {
       // newState = Object.assign({}, state, { loading: false });
       // newState.courses.splice(existingAuthorIndex, 1, action.course);
       return Object.assign({}, state, {
-        loading: false,
         courses: [
           ...state.courses.filter(course => course.id == action.course.id),
           action.course
@@ -42,7 +34,6 @@ export default function courseState(state = initialState, action) {
 
     case types.DELETED_COURSE:
       return Object.assign({}, state, {
-        loading: false,
         courses: state.courses.filter((course) => course.id !== action.id)
       });
 

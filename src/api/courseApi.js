@@ -42,6 +42,10 @@ const	courses = [
 	}
 ];
 
+// Using setTimeout to simulate the delay of an AJAX call.
+// This configures the amount of delay.
+const delay = 1000;
+
 function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);
 }
@@ -54,7 +58,9 @@ const generateId = (course) => {
 class CourseApi {
   static getAllCourses() {
     return new Promise(function(resolve, reject) {
-      resolve(Object.assign([], courses));
+      setTimeout(() => {
+        resolve(Object.assign([], courses));
+      }, delay);
     });
   }
 
@@ -72,7 +78,9 @@ class CourseApi {
     }
 
     return new Promise(function(resolve, reject) {
-      resolve(Object.assign({}, course));
+      setTimeout(() => {
+        resolve(Object.assign({}, course));
+      }, delay);
     });
   }
 
@@ -80,7 +88,9 @@ class CourseApi {
     const indexOfCourseToDelete = courses.findIndex(course => { course.courseId == courseId; } );
     return new Promise(function(resolve, reject) {
       courses.splice(indexOfCourseToDelete, 1);
-      resolve();
+      setTimeout(() => {
+        resolve();
+      }, delay);
     });
   }
 }

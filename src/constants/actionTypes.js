@@ -1,4 +1,5 @@
 export const LOADING = 'LOADING';
+export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
 export const LOADED_AUTHORS = 'LOADED_AUTHORS';
 export const CREATED_AUTHOR = 'CREATED_AUTHOR';

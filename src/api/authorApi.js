@@ -17,6 +17,10 @@ const	authors =	[
   }
 ];
 
+// Using setTimeout to simulate the delay of an AJAX call.
+// This configures the amount of delay.
+const delay = 1000;
+
 //This would be performed on the server in a real app. Just stubbing in.
 const generateId = (author) => {
   return author.firstName.toLowerCase() + '-' + author.lastName.toLowerCase();
@@ -25,13 +29,9 @@ const generateId = (author) => {
 class AuthorApi {
   static getAllAuthors() {
     return new Promise(function(resolve, reject) {
-      resolve(Object.assign([], authors));
-    });
-  }
-
-  static getAuthorById(id) {
-    return new Promise(function(resolve, reject) {
-      resolve(authors.find(author => id == id));
+      setTimeout(() => {
+        resolve(Object.assign([], authors));
+      }, delay);
     });
   }
 
@@ -48,7 +48,9 @@ class AuthorApi {
     }
 
     return new Promise(function(resolve, reject) {
-      resolve(Object.assign({}, author));
+      setTimeout(() => {
+        resolve(Object.assign({}, author));
+      }, delay);
     });
   }
 
@@ -56,7 +58,9 @@ class AuthorApi {
     const indexOfAuthorToDelete = authors.findIndex(author => { author.authorId == authorId; } );
     return new Promise(function(resolve, reject) {
       authors.splice(indexOfAuthorToDelete, 1);
-      resolve();
+      setTimeout(() => {
+        resolve();
+      }, delay);
     });
   }
 }
