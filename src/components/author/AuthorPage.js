@@ -6,6 +6,11 @@ import { browserHistory } from 'react-router';
 import AuthorList from './AuthorList';
 
 class AuthorPage extends Component {
+  static propTypes = {
+    actions: PropTypes.object.isRequired,
+    authors: PropTypes.array.isRequired
+  };
+
   componentWillMount() {
     this.props.actions.loadAuthors();
   }
@@ -28,11 +33,6 @@ class AuthorPage extends Component {
     );
   }
 }
-
-AuthorPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  authors: PropTypes.array.isRequired
-};
 
 function mapStateToProps(state, ownProps) {
   return {

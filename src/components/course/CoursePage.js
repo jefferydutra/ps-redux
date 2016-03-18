@@ -8,6 +8,11 @@ import CourseList from './CourseList';
 //Note that this is a controller view, which is why it gets data
 //and passes it down to child components via props.
 class CoursePage extends React.Component {
+  static propTypes = {
+    actions: PropTypes.object.isRequired,
+    courses: PropTypes.array.isRequired
+  }
+  
   componentWillMount() {
     this.props.actions.loadCourses();
   }
@@ -35,11 +40,6 @@ class CoursePage extends React.Component {
     );
   }
 }
-
-CoursePage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  courses: PropTypes.array.isRequired
-};
 
 function mapStateToProps(state, ownProps) {
   return {
