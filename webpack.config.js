@@ -1,13 +1,12 @@
-// For info about this file refer to webpack and webpack-hot-middleware documentation
-// Rather than having hard coded webpack.config.js for each environment, this
+// NOTE: Rather than having hard coded webpack.config.js for each environment, this
 // file generates a webpack config for the environment passed to the getConfig method.
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const developmentEnvironment = 'development' ;
-const productionEnvironment = 'production';
 const testEnvironment = 'test';
+const productionEnvironment = 'production';
 
 const getPlugins = function (env) {
   const GLOBALS = {
@@ -39,8 +38,9 @@ const getPlugins = function (env) {
 const getEntry = function (env) {
   const entry = [];
 
-  if (env === developmentEnvironment ) { // only want hot reloading when in dev.
-    entry.push('webpack-hot-middleware/client');
+  if (env === developmentEnvironment) { // only want hot reloading when in dev.
+    entry.push('webpack-dev-server/client?http://localhost:3000');
+    entry.push('webpack/hot/only-dev-server');
   }
 
   entry.push('./src/index');
@@ -72,6 +72,9 @@ function getConfig(env) {
       path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
       publicPath: '',
       filename: 'bundle.js'
+    },
+    devServer: {
+      contentBase: env === productionEnvironment ? './dist' : './src'
     },
     plugins: getPlugins(env),
     module: {

@@ -1,47 +1,25 @@
-// This file configures the development web server
-// which supports hot reloading and synchronized testing.
-
-// Require Browsersync along with webpack and middleware for it
-import browserSync from 'browser-sync';
-import historyApiFallback from 'connect-history-api-fallback';
 import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import WebpackDevServer from 'webpack-dev-server';
 import webpackConfigBuilder from '../webpack.config';
+import open from 'open';
 
-const webpackConfig = webpackConfigBuilder('development');
-const bundler = webpack(webpackConfig);
+const config = webpackConfigBuilder('development');
+const port = 3000;
+const baseUrl = 'http://localhost';
+const url = baseUrl + ':' + port;
 
-// Run Browsersync and use middleware for Hot Module Replacement
-browserSync({
-  server: {
-    baseDir: 'src',
+new WebpackDevServer(webpack(config), {
+  publicPath: config.output.publicPath,
+  contentBase: 'src/',
+  stats: { colors: true }, // pretty colored output
+  noInfo: true, // Set to false to display a list of each file that is being bundled.
+  hot: true,
+  historyApiFallback: true
+}).listen(port, 'localhost', function (err, result) {
+  if (err) {
+    return console.log(err); //eslint-disable-line no-console
+  }
 
-    middleware: [
-      webpackDevMiddleware(bundler, {
-        // Dev middleware can't access config, so we provide publicPath
-        publicPath: webpackConfig.output.publicPath,
-
-        // pretty colored output
-        stats: { colors: true },
-
-        // Set to false to display a list of each file that is being bundled.
-        noInfo: true
-
-        // for other settings see
-        // http://webpack.github.io/docs/webpack-dev-middleware.html
-      }),
-
-      // bundler should be the same as above
-      webpackHotMiddleware(bundler),
-
-      historyApiFallback()
-    ]
-  },
-
-  // no need to watch '*.js' here, webpack will take care of it for us,
-  // including full page reloads if HMR won't work
-  files: [
-    'src/*.html'
-  ]
+  console.log(`Listening at ${url}`); //eslint-disable-line no-console
+  open(`${url}`);
 });
