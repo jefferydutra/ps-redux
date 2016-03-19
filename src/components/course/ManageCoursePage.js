@@ -99,7 +99,7 @@ class ManageCoursePage extends React.Component {
       return;
     }
 
-    this.formIsdirty = false;
+    this.formIsDirty = false;
 
     if (this.state.course.id) {
       this.props.updateCourse(this.state.course);
