@@ -22,12 +22,13 @@ export default function courseReducer(state = initialState, action) {
      });
 
     case types.UPDATED_COURSE:
+      // Alternative approach.
       // existingAuthorIndex = state.courses.findIndex(course => course.id == action.course.id);
       // newState = Object.assign({}, state, { loading: false });
       // newState.courses.splice(existingAuthorIndex, 1, action.course);
       return Object.assign({}, state, {
         courses: [
-          ...state.courses.filter(course => course.id == action.course.id),
+          ...state.courses.filter(course => course.id !== action.course.id),
           action.course
         ]
       });
