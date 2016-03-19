@@ -20,5 +20,5 @@ fs.readFile('src/index.html', 'utf8', (err, markup) => {
     }
   });
 
-  console.log('index.html written to /dist'.green);
+  console.log('index.html written to /dist'.green); //eslint-disable-line no-console
 });
