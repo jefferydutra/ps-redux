@@ -78,7 +78,7 @@ class ManageCoursePage extends React.Component {
     let formIsValid = true;
     let errors = {};
 
-    if (this.state.course.length < 5) {
+    if (this.state.course.title.length < 5) {
       errors.title = 'Title must be at least 5 characters.';
       formIsValid = false;
     }
