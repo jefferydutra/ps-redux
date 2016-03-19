@@ -19,7 +19,7 @@ function deletedAuthor(id) {
 }
 
 function handleError(error) {
-  alert('Sorry, an error occurred: ' + error);
+  console.error(error); //eslint-disable-line no-console
 }
 
 // Functions below handle asynchronous calls.
