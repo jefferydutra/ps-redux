@@ -5,33 +5,6 @@ import { connect } from 'react-redux';
 import CourseForm from './CourseForm';
 
 class ManageCoursePage extends React.Component {
-  static propTypes = {
-    loadCourses: PropTypes.func.isRequired,
-    createCourse: PropTypes.func.isRequired,
-    updateCourse: PropTypes.func.isRequired,
-    loadAuthors: PropTypes.func.isRequired,
-    courses: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      watchHref: PropTypes.string.isRequired,
-      authorId: PropTypes.string.isRequired,
-      length: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired
-    })),
-    authors: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired
-    })),
-    params: PropTypes.object,
-    route: PropTypes.object.isRequired
-  }
-
-  //Pull in the React Router context so router is available on this.context.router.
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   constructor(props, context) {
     super(props, context);
 
@@ -135,6 +108,33 @@ class ManageCoursePage extends React.Component {
     );
   }
 }
+
+ManageCoursePage.propTypes = {
+  loadCourses: PropTypes.func.isRequired,
+  createCourse: PropTypes.func.isRequired,
+  updateCourse: PropTypes.func.isRequired,
+  loadAuthors: PropTypes.func.isRequired,
+  courses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    watchHref: PropTypes.string.isRequired,
+    authorId: PropTypes.string.isRequired,
+    length: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired
+  })),
+  authors: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired
+  })),
+  params: PropTypes.object,
+  route: PropTypes.object.isRequired
+};
+
+//Pull in the React Router context so router is available on this.context.router.
+ManageCoursePage.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 function mapStateToProps(state, ownProps) {
   return {

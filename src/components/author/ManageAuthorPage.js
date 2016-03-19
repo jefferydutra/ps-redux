@@ -5,23 +5,6 @@ import { connect } from 'react-redux';
 import AuthorForm from './AuthorForm';
 
 class ManageAuthorPage extends React.Component {
-  static propTypes = {
-    authors: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired,
-    author: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired
-    }),
-    params: PropTypes.object,
-    route: PropTypes.object.isRequired
-  };
-
-  //Pull in the React Router context so router is available on this.context.router.
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   constructor(props, context) {
     super(props, context);
 
@@ -113,6 +96,23 @@ class ManageAuthorPage extends React.Component {
 		);
 	}
 }
+
+ManageAuthorPage.propTypes = {
+  authors: PropTypes.array.isRequired,
+  actions: PropTypes.object.isRequired,
+  author: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired
+  }),
+  params: PropTypes.object,
+  route: PropTypes.object.isRequired
+};
+
+//Pull in the React Router context so router is available on this.context.router.
+ManageAuthorPage.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 function mapStateToProps(state, ownProps) {
   return {
