@@ -13,7 +13,7 @@
     "build:html": "babel-node tools/buildHtml.js",
     "prebuild": "npm run clean-dist && npm run build:html",
     "build": "npm run test && babel-node tools/build.js && npm run open:dist",
-    "test": "cross-env NODE_ENV=test mocha --reporter progress --compilers js:babel-core/register --recursive \"./src/**/*.spec.js\"",
+    "test": "cross-env NODE_ENV=test mocha --reporter spec --compilers js:babel-core/register --recursive \"./src/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch"
   },
   "author": "Cory House",
@@ -22,7 +22,7 @@
     "babel-polyfill": "6.7.2",
     "bootstrap": "3.3.6",
     "notie": "2.1.0",
-    "react": "0.14.7",
+    "react": "15.0.0-rc.2",
     "react-dom": "0.14.7",
     "react-redux": "4.4.1",
     "react-router": "2.0.1",
@@ -76,7 +76,8 @@
     "redux",
     "flux",
     "boilerplate",
-    "starter"
+    "starter",
+    "pluralsight"
   ],
   "repository": {
     "type": "git",
