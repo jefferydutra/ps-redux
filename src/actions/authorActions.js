@@ -2,19 +2,19 @@ import AuthorApi from '../api/authorApi';
 import * as types from '../constants/ActionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
-function loadedAuthors(authors) {
+export function loadedAuthors(authors) {
 	return { type: types.LOADED_AUTHORS, authors };
 }
 
-function createdAuthor(author) {
+ export function createdAuthor(author) {
 	return { type: types.CREATED_AUTHOR, author };
 }
 
-function updatedAuthor(author) {
+export function updatedAuthor(author) {
 	return { type: types.UPDATED_AUTHOR, author };
 }
 
-function deletedAuthor(id) {
+export function deletedAuthor(id) {
 	return { type: types.DELETED_AUTHOR, id };
 }
 
