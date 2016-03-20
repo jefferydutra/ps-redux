@@ -3,6 +3,7 @@ import { loadCourses, updateCourse, createCourse } from '../../actions/courseAct
 import { loadAuthors } from '../../actions/authorActions';
 import { connect } from 'react-redux';
 import CourseForm from './CourseForm';
+import notie from 'notie';
 
 class ManageCoursePage extends React.Component {
   constructor(props, context) {
@@ -80,7 +81,7 @@ class ManageCoursePage extends React.Component {
       this.props.createCourse(this.state.course);
     }
 
-    alert('Course saved.');
+    notie.alert(1, 'Course saved.');
     this.context.router.push('/courses');
   }
 

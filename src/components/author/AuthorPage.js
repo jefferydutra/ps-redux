@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import AuthorList from './AuthorList';
+import notie from 'notie';
 
 class AuthorPage extends Component {
   componentWillMount() {
@@ -13,7 +14,7 @@ class AuthorPage extends Component {
   deleteAuthor(event, authorId) {
     event.preventDefault();
     this.props.actions.deleteAuthor(authorId);
-    alert('Author deleted.');
+    notie.alert(1, 'Author deleted :(');
   }
 
   render() {
