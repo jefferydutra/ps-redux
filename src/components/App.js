@@ -5,11 +5,9 @@ import Header from './common/Header';
 
 const App = ({children, loading}) => {
   return (
-    <div>
+    <div className="container-fluid">
       <Header loading={loading} />
-      <div className="container-fluid">
-        {children}
-      </div>
+      {children}
     </div>
   );
 };
