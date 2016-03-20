@@ -55,12 +55,12 @@ export function updateCourse(course) {
 	};
 }
 
+//Note that deletion is optimistic.
+//All actions above could (and arguably should) do the same
+//It's a design decision.
 export function deleteCourse(courseId) {
 	return function(dispatch) {
-		dispatch(loading());
-		return CourseApi.deleteCourse(courseId).then(function() {
-			dispatch(deletedCourse(courseId));
-      dispatch(loadingComplete());
-    }).catch(handleError);
+    dispatch(deletedCourse(courseId));
+		return CourseApi.deleteCourse(courseId).catch(handleError);
 	};
 }
