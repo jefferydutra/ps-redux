@@ -6,7 +6,7 @@
     "prestart": "npm run remove-dist",
     "start": "parallelshell \"npm run lint:tools\" \"npm run test:watch\" \"npm run open:src\"",
     "open:src": "babel-node tools/srcServer.js",
-    "open:dist": "http-server ./dist -o",
+    "open:dist": "http-server ./dist -o -p 3000",
     "lint:tools": "eslint webpack.config.js tools",
     "clean-dist": "npm run remove-dist && mkdir dist",
     "remove-dist": "node_modules/.bin/rimraf ./dist",
@@ -21,6 +21,7 @@
   "dependencies": {
     "babel-polyfill": "6.7.2",
     "bootstrap": "3.3.6",
+    "notie": "2.1.0",
     "react": "0.14.7",
     "react-dom": "0.14.7",
     "react-redux": "4.4.1",
@@ -58,6 +59,7 @@
     "redbox-react": "1.2.2",
     "rimraf": "2.5.2",
     "style-loader": "0.13.0",
+    "url-loader": "0.5.7",
     "webpack": "1.12.14",
     "webpack-dev-server": "1.14.1",
     "yargs": "4.3.1"
