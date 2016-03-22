@@ -1,8 +1,6 @@
-import chai from 'chai';
+import expect from 'expect';
 import authorReducer from './authorReducer';
 import * as actions from '../actions/authorActions';
-
-chai.should();
 
 describe('Author Reducer', () => {
   it('should add author', () => {
@@ -15,7 +13,7 @@ describe('Author Reducer', () => {
     const newState = authorReducer(initialState, action);
 
     //assert
-    newState.authors.length.should.equal(1);
+    expect(newState.authors.length).toEqual(1);
   });
 
   it('should remove author', () => {
@@ -33,7 +31,7 @@ describe('Author Reducer', () => {
     const newState = authorReducer(initialState, action);
 
     //assert
-    newState.authors.length.should.equal(1);
+    expect(newState.authors.length).toEqual(1);
   });
 
   it('should update author', () => {
@@ -45,17 +43,20 @@ describe('Author Reducer', () => {
       ]
     };
 
-    const updatedAuthor = { id: 1, firstName: 'newname' };
-    const action = actions.updatedAuthor(updatedAuthor);
+    const author = { id: 1, firstName: 'newname' };
+    const action = actions.updatedAuthor(author);
 
     //act
     const newState = authorReducer(initialState, action);
+    const updatedAuthor = newState.authors.find(a => a.id == author.id);
+    const untouchedAuthor = newState.authors.find(a => a.id == 2);
 
     //assert
-    newState.authors.find(a => a.id == updatedAuthor.id).firstName.should.equal('newname');
+    expect(updatedAuthor.firstName).toEqual('newname');
+    expect(untouchedAuthor.firstName).toEqual('Bob');
   });
 
-  it('should load author', () => {
+  it('should load authors', () => {
     //arrange
     const initialState = { authors: [] };
 
@@ -71,6 +72,6 @@ describe('Author Reducer', () => {
     const numAuthorsLoaded = newState.authors.length;
 
     //assert
-    numAuthorsLoaded.should.equal(2);
+    expect(numAuthorsLoaded).toEqual(2);
   });
 });
