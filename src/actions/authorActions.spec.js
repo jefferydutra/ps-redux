@@ -1,11 +1,12 @@
 import expect from 'expect';
 import * as actions from './authorActions';
 import * as types from '../constants/ActionTypes';
-// import configureMockStore from 'redux-mock-store';
-// import thunk from 'redux-thunk';
-// import nock from 'nock';
 
-// const middlewares = [ thunk ]
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import nock from 'nock';
+
+const middlewares = [ thunk ];
 
 // Test a sync action
 describe('Author actions', () => {
@@ -26,25 +27,31 @@ describe('Author actions', () => {
 });
 
 // Test an async action
+const mockStore = configureMockStore(middlewares)
 
-//
-// const mockStore = configureMockStore(middlewares)
-//
-// describe('async actions', () => {
-//   afterEach(() => {
-//     nock.cleanAll();
-//   })
-//
-//   it('creates CREATED_AUTHOR when author has created', (done) => {
-//     nock('http://example.com/')
-//       .get('/todos')
-//       .reply(200, { body: { todos: ['do something'] }})
-//
-//     const expectedActions = [
-//       { type: types.FETCH_TODOS_REQUEST },
-//       { type: types.FETCH_TODOS_SUCCESS, body: { todos: ['do something']  } }
-//     ]
-//     const store = mockStore({ todos: [] }, expectedActions, done)
-//     store.dispatch(actions.fetchTodos())
-//   })
-// })
+describe('async actions', () => {
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
+  it('creates LOADING_AUTHOR when authors have been loaded', (done) => {
+    // nock('http://example.com/')
+    //   .get('/authors')
+    //   .reply(200, { body: { authors: [{ id: 1, firstName: 'Cory', lastName: 'House'}] }});
+
+    const expectedActions = [
+      { type: types.LOADING },
+      { type: types.LOADING_COMPLETE },
+      { type: types.LOADED_AUTHORS, body: { authors: [{ id: 1, firstName: 'Cory', lastName: 'House'}]  } }
+    ];
+    const store = mockStore({ authors: [] }, expectedActions, done);
+    store.dispatch(actions.loadAuthors())
+      .then(() => {
+        const actions = store.getActions();
+
+        expect(actions[0].type).toEqual(types.LOADING);
+
+        done();
+      })
+  });
+});
