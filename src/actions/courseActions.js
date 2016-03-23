@@ -2,19 +2,19 @@ import CourseApi from '../api/courseApi';
 import * as types from '../constants/ActionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
-function loadedCourses(courses) {
+export function loadedCourses(courses) {
 	return { type: types.LOADED_COURSES, courses };
 }
 
-function createdCourse(course) {
+export function createdCourse(course) {
 	return { type: types.CREATED_COURSE, course };
 }
 
-function updatedCourse(course) {
+export function updatedCourse(course) {
 	return { type: types.UPDATED_COURSE, course };
 }
 
-function deletedCourse(id) {
+export function deletedCourse(id) {
 	return { type: types.DELETED_COURSE, id };
 }
 
