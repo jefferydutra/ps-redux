@@ -1,7 +1,7 @@
 {
   "name": "ps-redux",
   "version": "1.0.0",
-  "description": "React and Redux starter kit for Pluralsight course by Cory House",
+  "description": "Starter kit for React and Redux Pluralsight course by Cory House",
   "scripts": {
     "prestart": "npm run remove-dist",
     "start": "npm-run-all --parallel lint:tools test:watch open:src",
@@ -63,7 +63,7 @@
     "url-loader": "0.5.7",
     "webpack": "1.12.14",
     "webpack-dev-server": "1.14.1",
-    "yargs": "4.3.1"
+    "yargs": "4.3.2"
   },
   "keywords:": [
     "react",
