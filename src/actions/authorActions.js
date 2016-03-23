@@ -6,7 +6,7 @@ export function loadedAuthors(authors) {
 	return { type: types.LOADED_AUTHORS, authors };
 }
 
- export function createdAuthor(author) {
+export function createdAuthor(author) {
 	return { type: types.CREATED_AUTHOR, author };
 }
 
@@ -45,22 +45,18 @@ export function createAuthor(author) {
 	};
 }
 
+// Optimistically updating authors for perceived performance.
 export function updateAuthor(author) {
 	return function(dispatch) {
-    dispatch(loading());
-		return AuthorApi.saveAuthor(author).then(function(author) {
-			dispatch(updatedAuthor(author));
-      dispatch(loadingComplete());
-		}).catch(handleError);
+    dispatch(updatedAuthor(author));
+    return AuthorApi.saveAuthor(author).catch(handleError);
 	};
 }
 
+// Optimistically deleting for perceived performance
 export function deleteAuthor(authorId) {
 	return function(dispatch) {
-    dispatch(loading());
-		return AuthorApi.deleteAuthor(authorId).then(function() {
-			dispatch(deletedAuthor(authorId));
-      dispatch(loadingComplete());
-		}).catch(handleError);
+    dispatch(deletedAuthor(authorId));
+    return AuthorApi.deleteAuthor(authorId).catch(handleError);
 	};
 }
