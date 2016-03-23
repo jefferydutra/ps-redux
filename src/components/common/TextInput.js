@@ -1,22 +1,22 @@
 import React from 'react';
 
-const TextInput = (props) => {
+const TextInput = ({name, label, onChange, placeholder, value, error}) => {
   let wrapperClass = 'form-group';
-  if (props.error && props.error.length > 0) {
+  if (error && error.length > 0) {
     wrapperClass += " " + 'has-error';
   }
 
   return (
    <div className={wrapperClass}>
-      <label htmlFor={props.name}>{props.label}</label>
+      <label htmlFor={name}>{label}</label>
       <div className="field">
         <input type="text"
-          name={props.name}
+          name={name}
           className="form-control"
-          placeholder={props.placeholder}
-          value={props.value}
-          onChange={props.onChange} />
-        <div className="input">{props.error}</div>
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange} />
+        <div className="input">{error}</div>
       </div>
     </div>
   );
