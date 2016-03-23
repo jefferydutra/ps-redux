@@ -4,7 +4,7 @@
   "description": "React and Redux starter kit for Pluralsight course by Cory House",
   "scripts": {
     "prestart": "npm run remove-dist",
-    "start": "parallelshell \"npm run lint:tools\" \"npm run test:watch\" \"npm run open:src\"",
+    "start": "npm-run-all --parallel lint:tools test:watch open:src",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "http-server ./dist -o -p 3000",
     "lint:tools": "eslint webpack.config.js tools",
@@ -13,7 +13,7 @@
     "build:html": "babel-node tools/buildHtml.js",
     "prebuild": "npm run clean-dist && npm run build:html",
     "build": "npm run test && babel-node tools/build.js && npm run open:dist",
-    "test": "cross-env NODE_ENV=test mocha --reporter spec --compilers js:babel-core/register --recursive \"./src/**/*.spec.js\"",
+    "test": "cross-env NODE_ENV=test mocha --reporter progress --compilers js:babel-core/register --recursive \"./src/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch"
   },
   "author": "Cory House",
@@ -28,8 +28,7 @@
     "react-router": "2.0.1",
     "react-router-redux": "4.0.0",
     "redux": "3.3.1",
-    "redux-thunk": "2.0.1",
-    "toastr": "2.1.2"
+    "redux-thunk": "2.0.1"
   },
   "devDependencies": {
     "babel-cli": "6.6.5",
@@ -52,8 +51,8 @@
     "file-loader": "0.8.5",
     "http-server": "0.9.0",
     "mocha": "2.4.5",
+    "npm-run-all": "1.6.0",
     "open": "0.0.5",
-    "parallelshell": "2.0.0",
     "react-transform-catch-errors": "1.0.2",
     "react-transform-hmr": "1.0.4",
     "redbox-react": "1.2.2",
