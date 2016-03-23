@@ -8,7 +8,9 @@ import notie from 'notie';
 
 class AuthorPage extends Component {
   componentWillMount() {
-    this.props.actions.loadAuthors();
+    if (this.props.authors.length == 0) {
+      this.props.actions.loadAuthors();
+    }
   }
 
   deleteAuthor(event, authorId) {

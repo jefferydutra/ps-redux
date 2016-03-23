@@ -10,7 +10,9 @@ import notie from 'notie';
 //and passes it down to child components via props.
 class CoursePage extends React.Component {
   componentWillMount() {
-    this.props.actions.loadCourses();
+    if (this.props.courses.length == 0) {
+      this.props.actions.loadCourses();
+    }
   }
 
   deleteCourse(event, courseId) {
