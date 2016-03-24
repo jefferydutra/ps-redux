@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
-import { loadCourses, updateCourse, createCourse } from '../../actions/courseActions';
-import { loadAuthors } from '../../actions/authorActions';
+import * as authorActions from '../../actions/authorActions';
+import * as courseActions from '../../actions/courseActions';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CourseForm from './CourseForm';
 import notie from 'notie';
@@ -19,12 +20,21 @@ class ManageCoursePage extends React.Component {
   }
 
   componentWillMount() {
-    Promise.all([this.props.loadCourses(), this.props.loadAuthors()]).then(() => {
-      const courseId = this.props.params.id; // from the path `/course/:id`
-      if (courseId) {
-        this.setState({course: this.props.courses.find((course) => course.id == courseId)});
+    const courseId = this.props.params.id; // from the path `/course/:id`
+
+    if (this.props.authors.length == 0) {
+      this.props.actions.loadAuthors();
+    }
+
+    if (courseId) {
+      if (this.props.courses.length == 0) {
+        this.props.actions.loadCourses().then(() => {
+          this.populateForm(courseId);
+        });
+      } else {
+        this.populateForm(courseId);
       }
-    });
+    }
   }
 
   componentDidMount() {
@@ -37,6 +47,11 @@ class ManageCoursePage extends React.Component {
     if (this.formIsDirty) {
       return 'Leave without saving?';
     }
+  }
+
+  populateForm(courseId) {
+    const course = this.props.courses.find((course) => course.id == courseId);
+    this.setState({course: course});
   }
 
   getAuthorsFormattedForDropdown() {
@@ -76,9 +91,9 @@ class ManageCoursePage extends React.Component {
     this.formIsDirty = false;
 
     if (this.state.course.id) {
-      this.props.updateCourse(this.state.course);
+      this.props.actions.updateCourse(this.state.course);
     } else {
-      this.props.createCourse(this.state.course);
+      this.props.actions.createCourse(this.state.course);
     }
 
     notie.alert(1, 'Course saved.');
@@ -111,10 +126,7 @@ class ManageCoursePage extends React.Component {
 }
 
 ManageCoursePage.propTypes = {
-  loadCourses: PropTypes.func.isRequired,
-  createCourse: PropTypes.func.isRequired,
-  updateCourse: PropTypes.func.isRequired,
-  loadAuthors: PropTypes.func.isRequired,
+  actions: PropTypes.object,
   courses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -145,23 +157,32 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
+  const actions = Object.assign({},
+    bindActionCreators(courseActions, dispatch),
+    bindActionCreators(authorActions, dispatch)
+  );
+
+  return {
+    actions: actions
+  };
+
   // Manually wrapping action creators
   // in dispatch calls to show an alternative
   // to bindActionCreators
-  return {
-    loadCourses: () => {
-      dispatch(loadCourses());
-    },
-    createCourse: (course) => {
-      dispatch(createCourse(course));
-    },
-    updateCourse: (course) => {
-      dispatch(updateCourse(course));
-    },
-    loadAuthors: () => {
-      dispatch(loadAuthors());
-    }
-  };
+  // return {
+  //   loadCourses: () => {
+  //     dispatch(loadCourses());
+  //   },
+  //   createCourse: (course) => {
+  //     dispatch(createCourse(course));
+  //   },
+  //   updateCourse: (course) => {
+  //     dispatch(updateCourse(course));
+  //   },
+  //   loadAuthors: () => {
+  //     dispatch(loadAuthors());
+  //   }
+  // };
 }
 
 const connectedManageCoursePage = connect(

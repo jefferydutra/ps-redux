@@ -23,9 +23,12 @@ class ManageAuthorPage extends React.Component {
     const authorId = this.props.params.id; // from the path '/author:id'
 
     if (authorId) {
-      this.props.actions.loadAuthors().then(() => {
-        this.setState({author: this.props.authors.find( (author) => author.id == authorId) });
-      });
+      if (this.props.authors.length > 0) {
+        this.populateForm(authorId);
+      } else {
+        this.props.actions.loadAuthors()
+          .then(() => this.populateForm(authorId));
+      }
     }
   }
 
@@ -39,6 +42,11 @@ class ManageAuthorPage extends React.Component {
     if (this.formIsDirty) {
       return 'Leave without saving?';
     }
+  }
+
+  populateForm(authorId) {
+    const author = this.props.authors.find( (author) => author.id == authorId);
+    this.setState({author: author});
   }
 
 	setAuthorState(event) {

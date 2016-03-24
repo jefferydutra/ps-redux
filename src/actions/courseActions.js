@@ -45,13 +45,14 @@ export function createCourse(course) {
 	};
 }
 
+//Can show how I can do it optimistically. Currently the slow way.
 export function updateCourse(course) {
 	return function(dispatch) {
 		dispatch(loading());
 		return CourseApi.saveCourse(course).then(function(course) {
-			dispatch(updatedCourse(course));
-      dispatch(loadingComplete());
-    }).catch(handleError);
+          dispatch(updatedCourse(course));
+          dispatch(loadingComplete());
+        }).catch(handleError);
 	};
 }
 
