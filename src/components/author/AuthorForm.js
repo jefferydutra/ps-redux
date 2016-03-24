@@ -19,7 +19,7 @@ const AuthorForm = ({author, onSave, onChange, errors}) => {
 				onChange={onChange}
 				error={errors.lastName} />
 
-			<input type="submit" value="Save" className="btn btn-default" onClick={onSave} />
+			<input type="submit" value="Save" className="btn btn-primary" onClick={onSave} />
 		</form>
 	);
 };
