@@ -30,7 +30,7 @@ class CoursePage extends React.Component {
           Also, note the structure of this comment, have to
           create an empty JS expression to comment since this is
           all parsed as JS */}
-        <input type="submit" value="Add Course" className="btn btn-default" onClick={() => {browserHistory.push('/course');}} />
+        <input type="submit" value="Add Course" className="btn btn-primary" onClick={() => {browserHistory.push('/course');}} />
         {
           this.props.courses.length > 0 &&
           <CourseList
