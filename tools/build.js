@@ -9,7 +9,7 @@ process.env.NODE_ENV = 'production'; // this assures React is built in prod mode
 
 const webpackConfig = webpackConfigBuilder(process.env.NODE_ENV);
 
-console.log('Generating minified bundle for production use via Webpack. This will take a moment...'.bold.blue);
+console.log('Generating minified bundle for production use via Webpack. This will take a moment...'.blue);
 
 webpack(webpackConfig).run((err, stats) => {
   if (err) { // so a fatal error occurred. Stop here.
@@ -31,7 +31,7 @@ webpack(webpackConfig).run((err, stats) => {
   console.log(`Webpack stats: ${stats}`);
 
   // if we got this far, the build succeeded.
-  console.log('Your app has been compiled in production mode and written to /dist. It\'s ready to roll!'.green.bold);
+  console.log('Your app has been compiled in production mode and written to /dist. It\'s ready to roll!'.green);
 
   return 0;
 });

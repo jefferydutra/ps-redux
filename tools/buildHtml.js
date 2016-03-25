@@ -3,10 +3,13 @@
 // In this case, the transformation is useful since we only use a separate css file in prod.
 import fs from 'fs';
 import cheerio from 'cheerio';
+import colors from 'colors';
+
+/*eslint-disable no-console */
 
 fs.readFile('src/index.html', 'utf8', (err, markup) => {
   if (err) {
-    return console.log(err); //eslint-disable-line no-console
+    return console.log(err);
   }
 
   const $ = cheerio.load(markup);
@@ -16,9 +19,9 @@ fs.readFile('src/index.html', 'utf8', (err, markup) => {
 
   fs.writeFile('dist/index.html', $.html(), 'utf8', function (err) {
     if (err) {
-      return console.log(err); //eslint-disable-line no-console
+      return console.log(err);
     }
   });
 
-  console.log('index.html written to /dist'.green); //eslint-disable-line no-console
+  console.log('index.html written to /dist'.green);
 });

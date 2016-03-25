@@ -1,25 +1,38 @@
+import path from 'path';
+import express from 'express';
 import webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
 import webpackConfigBuilder from '../webpack.config';
 import open from 'open';
+import colors from 'colors';
+
+/*eslint-disable no-console */
 
 const config = webpackConfigBuilder('development');
-const port = 3000;
-const baseUrl = 'http://localhost';
-const url = baseUrl + ':' + port;
 
-new WebpackDevServer(webpack(config), {
-  publicPath: config.output.publicPath,
-  contentBase: 'src/',
-  stats: { colors: true }, // pretty colored output
-  noInfo: true, // Set to false to display a list of each file that is being bundled.
-  hot: true,
-  historyApiFallback: true
-}).listen(port, 'localhost', function (err, result) {
+let app = express();
+let compiler = webpack(config);
+
+app.use(require('webpack-dev-middleware')(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+
+app.use(require('webpack-hot-middleware')(compiler));
+
+app.use('/public', express.static('public'));
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../src/index.html'));
+});
+
+const port = 3000;
+app.listen(port, function(err) {
   if (err) {
-    return console.log(err); //eslint-disable-line no-console
+    console.log(err);
+    return;
   }
 
-  console.log(`Listening at ${url}`); //eslint-disable-line no-console
-  open(`${url}`);
+  const url = `http://localhost:${port}`;
+  open(url);
 });
+
