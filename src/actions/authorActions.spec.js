@@ -9,7 +9,7 @@ import nock from 'nock';
 const middlewares = [ thunk ];
 
 // Test a sync action
-describe('Author actions', () => {
+describe('Author Actions', () => {
   it('should create a CREATED_AUTHOR action', () => {
     //arrange
     const author = { id: 1, firstName: 'Cory'};
@@ -29,12 +29,12 @@ describe('Author actions', () => {
 // Test an async action
 const mockStore = configureMockStore(middlewares)
 
-describe('async actions', () => {
+describe('Async Actions', () => {
   afterEach(() => {
     nock.cleanAll();
   });
 
-  it('creates LOADING_AUTHOR when authors have been loaded', (done) => {
+  it('should create LOADING_AUTHOR when authors have been loaded', (done) => {
     // nock('http://example.com/')
     //   .get('/authors')
     //   .reply(200, { body: { authors: [{ id: 1, firstName: 'Cory', lastName: 'House'}] }});
