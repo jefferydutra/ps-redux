@@ -3,17 +3,24 @@ import authorReducer from './authorReducer';
 import * as actions from '../actions/authorActions';
 
 describe('Author Reducer', () => {
-  it('should add author', () => {
+  it('should add author in alphabetical order', () => {
     //arrange
-    const newAuthor = {}; //empty since merely testing that it's added.
-    const initialState = { authors: [] };
+    const initialState = { authors: [
+      { firstName: 'A' },
+      { firstName: 'C' }
+    ] };
+    const newAuthor = { firstName: 'B' };
+
     const action = actions.createdAuthor(newAuthor);
 
     //act
     const newState = authorReducer(initialState, action);
 
     //assert
-    expect(newState.authors.length).toEqual(1);
+    expect(newState.authors.length).toEqual(3);
+    expect(newState.authors[0].firstName).toEqual('A');
+    expect(newState.authors[1].firstName).toEqual('B');
+    expect(newState.authors[2].firstName).toEqual('C');
   });
 
   it('should remove author', () => {
@@ -34,35 +41,41 @@ describe('Author Reducer', () => {
     expect(newState.authors.length).toEqual(1);
   });
 
-  it('should update author', () => {
+  it('should update author and sort alphabetically', () => {
     //arrange
     const initialState = {
       authors: [
-        { id: 1, firstName: 'Cory' },
-        { id: 2, firstName: 'Bob' }
+        { id: 'A', firstName: 'A' },
+        { id: 'B', firstName: 'B' },
+        { id: 'C', firstName: 'C' }
       ]
     };
 
-    const author = { id: 1, firstName: 'newname' };
+    //Changing author's name from B to Z to test sorting.
+    const author = { id: 'B', firstName: 'Z' };
     const action = actions.updatedAuthor(author);
 
     //act
     const newState = authorReducer(initialState, action);
     const updatedAuthor = newState.authors.find(a => a.id == author.id);
-    const untouchedAuthor = newState.authors.find(a => a.id == 2);
+    const untouchedAuthor = newState.authors.find(a => a.id == 'A');
 
     //assert
-    expect(updatedAuthor.firstName).toEqual('newname');
-    expect(untouchedAuthor.firstName).toEqual('Bob');
+    expect(updatedAuthor.firstName).toEqual('Z');
+    expect(untouchedAuthor.firstName).toEqual('A');
+    expect(newState.authors[0].firstName).toEqual('A');
+    expect(newState.authors[1].firstName).toEqual('C');
+    expect(newState.authors[2].firstName).toEqual('Z');
   });
 
-  it('should load authors', () => {
+  it('should load authors in alphabetical order', () => {
     //arrange
     const initialState = { authors: [] };
 
     const authorsToLoad = [
-      { id: 1 },
-      { id: 2 }
+      { firstName: 'B' },
+      { firstName: 'C' },
+      { firstName: 'A' }
     ];
 
     const action = actions.loadedAuthors(authorsToLoad);
@@ -72,6 +85,9 @@ describe('Author Reducer', () => {
     const numAuthorsLoaded = newState.authors.length;
 
     //assert
-    expect(numAuthorsLoaded).toEqual(2);
+    expect(numAuthorsLoaded).toEqual(3);
+    expect(newState.authors[0].firstName).toEqual('A');
+    expect(newState.authors[1].firstName).toEqual('B');
+    expect(newState.authors[2].firstName).toEqual('C');
   });
 });
