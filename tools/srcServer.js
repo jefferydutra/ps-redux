@@ -1,16 +1,15 @@
-import path from 'path';
 import express from 'express';
 import webpack from 'webpack';
+import path from 'path';
 import webpackConfigBuilder from '../webpack.config';
 import open from 'open';
-import colors from 'colors';
 
 /*eslint-disable no-console */
 
 const config = webpackConfigBuilder('development');
-
-let app = express();
-let compiler = webpack(config);
+const port = 3000;
+const app = express();
+const compiler = webpack(config);
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
@@ -19,20 +18,14 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.use('/public', express.static('public'));
-
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../src/index.html'));
+  res.sendFile(path.join( __dirname, '../src/index.html'));
 });
 
-const port = 3000;
 app.listen(port, function(err) {
   if (err) {
     console.log(err);
-    return;
+  } else {
+    open(`http://localhost:${port}`);
   }
-
-  const url = `http://localhost:${port}`;
-  open(url);
 });
-

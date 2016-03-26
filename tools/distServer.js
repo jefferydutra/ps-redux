@@ -5,7 +5,7 @@ import colors from 'colors';
 
 /*eslint-disable no-console */
 
-let app = express();
+const app = express();
 
 app.use(express.static('dist'));
 
