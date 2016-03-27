@@ -1,5 +1,5 @@
 import CourseApi from '../api/courseApi';
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants/actionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
 export function loadedCourses(courses) {
