@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import * as authorActions from '../../actions/authorActions';
+import * as authorActions from '../../actions/authorThunks';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AuthorForm from './AuthorForm';
