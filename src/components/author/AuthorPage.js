@@ -50,7 +50,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     loadAuthors: () => dispatch(authorActions.loadAuthors()),
-    deleteAuthor: () => dispatch(authorActions.deleteAuthor())
+    deleteAuthor: (authorId) => dispatch(authorActions.deleteAuthor(authorId))
   };
 
   //alternative:
