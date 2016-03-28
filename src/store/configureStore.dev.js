@@ -5,15 +5,16 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
 
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-
+// Create store takes three parameters: http://redux.js.org/docs/api/createStore.html
+// 1. Root reducer
+// 2. Initial State
+// 3. Enhancer function
 export default function configureStore(initialState) {
-  let store;
-  if (window.devToolsExtension) { //Enable Redux devtools if the extension is installed in developer's browser
-    store = createStoreWithMiddleware(rootReducer, initialState);
-  } else {
-    store = createStoreWithMiddleware(rootReducer, initialState);
-  }
+  let store = createStore(rootReducer, initialState, compose(
+        applyMiddleware(thunk),
+        window.devToolsExtension ? window.devToolsExtension() : f => f //add support for Redux dev tools
+      )
+    );
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
