@@ -53,7 +53,9 @@ class ManageCoursePage extends React.Component {
 
   populateForm(courseId) {
     const course = this.props.courses.find((course) => course.id == courseId);
-    this.setState({course: course});
+    // NOTE: Must deep copy here or immutableStateInvariant will get cranky
+    // because we're trying to mutate state
+    this.setState({course: Object.assign({}, course)});
   }
 
   getAuthorsFormattedForDropdown() {
