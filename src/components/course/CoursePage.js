@@ -44,13 +44,12 @@ class CoursePage extends React.Component {
 
 CoursePage.propTypes = {
   actions: PropTypes.object.isRequired,
-  courses: PropTypes.array.isRequired
+  courses: PropTypes.array.isRequired,
+  coursesLoaded: PropTypes.bool.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  return {
-    courses: state.courseReducer.courses
-  };
+  return state.courseReducer;
 }
 
 function mapDispatchToProps(dispatch) {
