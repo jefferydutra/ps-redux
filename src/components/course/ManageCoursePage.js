@@ -22,18 +22,20 @@ class ManageCoursePage extends React.Component {
   componentWillMount() {
     const courseId = this.props.params.id; // from the path `/course/:id`
 
-    if (this.props.authors.length == 0) {
+    if (!this.props.authorsLoaded) {
       this.props.actions.loadAuthors();
     }
 
-    if (courseId) {
-      if (this.props.courses.length == 0) {
-        this.props.actions.loadCourses().then(() => {
-          this.populateForm(courseId);
-        });
-      } else {
+    if (this.props.coursesLoaded) {
+      if (courseId) {
         this.populateForm(courseId);
       }
+    } else {
+      this.props.actions.loadCourses().then(() => {
+        if (courseId) {
+          this.populateForm(courseId);
+        }
+      });
     }
   }
 
@@ -92,10 +94,17 @@ class ManageCoursePage extends React.Component {
 
     if (this.state.course.id) {
       this.props.actions.updateCourse(this.state.course);
+      this.redirectAndNotify();
     } else {
-      this.props.actions.createCourse(this.state.course);
+      // Waiting for promise to resolve before redirecting and notifying since the
+      // course ID is generated via the API. Otherwise, would see course plop
+      // in after the redirect.
+      this.props.actions.createCourse(this.state.course)
+        .then( () => this.redirectAndNotify() );
     }
+  }
 
+  redirectAndNotify() {
     notie.alert(1, 'Course saved.');
     this.context.router.push('/courses');
   }

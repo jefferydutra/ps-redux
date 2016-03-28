@@ -10,7 +10,7 @@ import notie from 'notie';
 //and passes it down to child components via props.
 class CoursePage extends React.Component {
   componentWillMount() {
-    if (this.props.courses.length == 0) {
+    if (!this.props.coursesLoaded) {
       this.props.actions.loadCourses();
     }
   }

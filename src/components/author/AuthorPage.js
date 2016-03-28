@@ -8,7 +8,7 @@ import notie from 'notie';
 
 class AuthorPage extends Component {
   componentWillMount() {
-    if (this.props.authors.length == 0) {
+    if (!this.props.authorsLoaded) {
       this.props.loadAuthors();
     }
   }

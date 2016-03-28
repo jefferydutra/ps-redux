@@ -1,7 +1,8 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-    courses: []
+  courses: [],
+  coursesLoaded: false
 };
 
 export function sortByTitle(courses) {
@@ -17,11 +18,12 @@ export default function courseReducer(state = initialState, action) {
   switch (action.type) {
     case types.LOADED_COURSES:
       return Object.assign({}, state, {
-        courses: sortByTitle(action.courses)
+        courses: sortByTitle(action.courses),
+        coursesLoaded: true
       });
 
     case types.CREATED_COURSE:
-     return Object.assign({}, state, {
+      return Object.assign({}, state, {
        courses: sortByTitle([...state.courses, action.course])
      });
 

@@ -1,7 +1,8 @@
 import * as types from '../constants/actionTypes';
 
 const initialState = {
-    authors: []
+  authors: [],
+  authorsLoaded: false
 };
 
 export function sortByName(authors) {
@@ -17,7 +18,8 @@ export default function authorReducer(state = initialState, action) {
   switch (action.type) {
     case types.LOADED_AUTHORS:
       return Object.assign({}, state, {
-        authors: sortByName(action.authors)
+        authors: sortByName(action.authors),
+        authorsLoaded: true
       });
 
     case types.CREATED_AUTHOR:
