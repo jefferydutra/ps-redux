@@ -27,9 +27,9 @@ class ManageAuthorPage extends React.Component {
         this.populateForm(authorId);
       }
     } else {
-      this.props.actions.loadAuthors().then( () => {
+      this.props.loadAuthors().then( () => {
         if (authorId) {
-          this.populateForm(authorId)
+          this.populateForm(authorId);
         }
       });
     }
@@ -63,7 +63,7 @@ class ManageAuthorPage extends React.Component {
 		return this.setState({author: this.state.author});
 	}
 
-	authorFormIsValid() {
+	formIsValid() {
 		let formIsValid = true;
 		let errors = {};
 
@@ -84,14 +84,14 @@ class ManageAuthorPage extends React.Component {
 	saveAuthor(event) {
 		event.preventDefault();
 
-		if (!this.authorFormIsValid()) {
+		if (!this.formIsValid()) {
 			return;
 		}
 
     this.formIsDirty = false;
 
 		if (this.state.author.id) {
-			this.props.actions.updateAuthor(this.state.author);
+			this.props.updateAuthor(this.state.author);
       // Do this immediately since optimistically updating.
       this.redirectAndNotify();
     } else {
@@ -101,7 +101,7 @@ class ManageAuthorPage extends React.Component {
       // Otherwise we'd see the course plop in *after* the redirect.
       // Initially, don't do this to show the behavior, then show how using
       // then fixes it and centralize redirectAndNotify.
-			this.props.actions.createAuthor(this.state.author)
+			this.props.createAuthor(this.state.author)
         .then( () => this.redirectAndNotify() );
 		}
 	}
@@ -124,13 +124,12 @@ class ManageAuthorPage extends React.Component {
 
 ManageAuthorPage.propTypes = {
   authors: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired,
-  author: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired
-  }),
-  params: PropTypes.object,
+  authorsLoaded: PropTypes.bool.isRequired,
+  loadAuthors: PropTypes.func.isRequired,
+  createAuthor: PropTypes.func.isRequired,
+  updateAuthor: PropTypes.func.isRequired,
+  //actions: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired
 };
 
@@ -140,15 +139,25 @@ ManageAuthorPage.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return {
-    authors: state.authorReducer.authors
-  };
+  return state.authorReducer;
 }
 
 function mapDispatchToProps(dispatch) {
+  // return {
+  //   actions: bindActionCreators(authorActions, dispatch)
+  // };
+
+  // Manually wrapping action creators
+  // in dispatch calls to show an alternative
+  // to bindActionCreators
   return {
-    actions: bindActionCreators(authorActions, dispatch)
+    loadAuthors: () => dispatch(authorActions.loadAuthors()),
+    createAuthor: author => dispatch(authorActions.createAuthor(author)),
+    updateAuthor: author => dispatch(authorActions.updateAuthor(author))
   };
+
+  // Or, final option: Don't even wrap.
+  // But then you have to call dispatch in child components.
 }
 
 const connectedManageAuthorPage = connect(
