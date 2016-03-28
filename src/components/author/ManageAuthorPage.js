@@ -49,7 +49,9 @@ class ManageAuthorPage extends React.Component {
 
   populateForm(authorId) {
     const author = this.props.authors.find( (author) => author.id == authorId);
-    this.setState({author: author});
+    // NOTE: Must deep copy here or immutableStateInvariant will get cranky
+    // because we're trying to mutate state
+    this.setState({author: Object.assign({}, author) });
   }
 
 	setAuthorState(event) {
