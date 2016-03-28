@@ -1,7 +1,9 @@
-import AuthorApi from '../api/authorApi';
+import AuthorApi from '../api/fackeAuthorApi';
 import * as types from '../constants/ActionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
+// Functions below are action creators. These handle synchronous actions.
+// Async actions are handled via Thunks or Sagas.
 export function loadedAuthors(authors) {
 	return { type: types.LOADED_AUTHORS, authors };
 }
@@ -18,45 +20,45 @@ export function deletedAuthor(id) {
 	return { type: types.DELETED_AUTHOR, id };
 }
 
-function handleError(error) {
+export function handleError(error) {
   console.error(error); //eslint-disable-line no-console
 }
 
-// Functions below handle asynchronous calls.
-// Each returns a function that accepts a dispatch.
+// Functions below are called thunks. They handle asynchronous calls.
+// Each returns a function that accepts dispatch.
 // These are used by redux-thunk to support asynchronous interactions.
 export function loadAuthors() {
-	return function(dispatch) {
-		dispatch(loading());
-		return AuthorApi.getAllAuthors().then(function(authors) {
-			dispatch(loadedAuthors(authors));
+  return dispatch => {
+    dispatch(loading());
+    return AuthorApi.getAllAuthors().then(function(authors) {
+      dispatch(loadedAuthors(authors));
       dispatch(loadingComplete());
-		}).catch(handleError);
-	};
+    }).catch(handleError);
+  };
 }
 
 export function createAuthor(author) {
-	return function(dispatch) {
+  return dispatch => {
     dispatch(loading());
-		return AuthorApi.saveAuthor(author).then(function(author) {
-			dispatch(createdAuthor(author));
+    return AuthorApi.saveAuthor(author).then(function(author) {
+      dispatch(createdAuthor(author));
       dispatch(loadingComplete());
-		}).catch(handleError);
-	};
+    }).catch(handleError);
+  };
 }
 
 // Optimistically updating authors for perceived performance.
 export function updateAuthor(author) {
-	return function(dispatch) {
+  return dispatch => {
     dispatch(updatedAuthor(author));
     return AuthorApi.saveAuthor(author).catch(handleError);
-	};
+  };
 }
 
 // Optimistically deleting for perceived performance
 export function deleteAuthor(authorId) {
-	return function(dispatch) {
+  return dispatch => {
     dispatch(deletedAuthor(authorId));
     return AuthorApi.deleteAuthor(authorId).catch(handleError);
-	};
+  };
 }

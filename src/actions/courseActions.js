@@ -1,5 +1,5 @@
-import CourseApi from '../api/courseApi';
-import * as types from '../constants/ActionTypes';
+import CourseApi from '../api/fakeCourseApi';
+import * as types from '../constants/actionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
 export function loadedCourses(courses) {
@@ -18,7 +18,7 @@ export function deletedCourse(id) {
 	return { type: types.DELETED_COURSE, id };
 }
 
-function handleError(error) {
+export function handleError(error) {
   console.error(error); //eslint-disable-line no-console
 }
 
