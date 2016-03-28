@@ -1,5 +1,5 @@
-import AuthorApi from '../api/mockAuthorApi';
-import * as types from '../constants/ActionTypes';
+import AuthorApi from '../api/authorApi';
+import * as types from '../constants/actionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
 // Functions below are action creators. These handle synchronous actions.
