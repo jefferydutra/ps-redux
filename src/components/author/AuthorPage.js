@@ -9,13 +9,13 @@ import notie from 'notie';
 class AuthorPage extends Component {
   componentWillMount() {
     if (this.props.authors.length == 0) {
-      this.props.actions.loadAuthors();
+      this.props.loadAuthors();
     }
   }
 
   deleteAuthor(event, authorId) {
     event.preventDefault();
-    this.props.actions.deleteAuthor(authorId);
+    this.props.deleteAuthor(authorId);
     notie.alert(1, 'Author deleted :(');
   }
 
@@ -36,7 +36,8 @@ class AuthorPage extends Component {
 }
 
 AuthorPage.propTypes = {
-  actions: PropTypes.object.isRequired,
+  loadAuthors: PropTypes.func.isRequired,
+  deleteAuthor: PropTypes.func.isRequired,
   authors: PropTypes.array.isRequired
 };
 
@@ -48,8 +49,18 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(authorActions, dispatch)
+    loadAuthors: () => dispatch(authorActions.loadAuthors()),
+    deleteAuthor: () => dispatch(authorActions.deleteAuthor())
   };
+
+  //alternative:
+  // return {
+  //   actions: bindActionCreators(authorThunks, dispatch)
+  // };
+
+  // Then above, you reference via this.props.actions.loadAuthors above instead.
+  // A little less typing, also less power to specify the exact desired shape
+  // since you now expose all the actions under an actions object.
 }
 
 const connectedAuthorPage = connect(
