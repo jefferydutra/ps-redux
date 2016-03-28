@@ -1,4 +1,4 @@
-import AuthorApi from '../api/fackeAuthorApi';
+import AuthorApi from '../api/mockAuthorApi';
 import * as types from '../constants/ActionTypes';
 import {loading, loadingComplete} from './loadingActions';
 

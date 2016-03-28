@@ -1,4 +1,4 @@
-import CourseApi from '../api/fakeCourseApi';
+import CourseApi from '../api/mockCourseApi';
 import * as types from '../constants/actionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
