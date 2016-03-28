@@ -151,6 +151,8 @@ ManageCoursePage.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired
   })),
+  authorsLoaded: PropTypes.bool.isRequired,
+  coursesLoaded: PropTypes.bool.isRequired,
   params: PropTypes.object,
   route: PropTypes.object.isRequired
 };
@@ -163,7 +165,9 @@ ManageCoursePage.contextTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     courses: state.courseReducer.courses,
-    authors: state.authorReducer.authors
+    authors: state.authorReducer.authors,
+    authorsLoaded: state.authorReducer.authorsLoaded,
+    coursesLoaded: state.courseReducer.coursesLoaded
   };
 }
 
