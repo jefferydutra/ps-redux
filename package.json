@@ -14,7 +14,7 @@
     "prebuild": "npm-run-all clean-dist test build:html",
     "build": "babel-node tools/build.js",
     "postbuild": "babel-node tools/distServer.js",
-    "test": "cross-env NODE_ENV=test mocha --reporter spec --compilers js:babel-core/register --recursive \"./src/**/*.spec.js\"",
+    "test": "cross-env NODE_ENV=test mocha --reporter progress --compilers js:babel-core/register --recursive \"./src/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch"
   },
   "author": "Cory House",
@@ -57,6 +57,7 @@
     "npm-run-all": "1.6.0",
     "open": "0.0.5",
     "redbox-react": "1.2.2",
+    "redux-immutable-state-invariant": "1.2.2",
     "redux-mock-store": "1.0.2",
     "rimraf": "2.5.2",
     "style-loader": "0.13.0",

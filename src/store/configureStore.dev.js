@@ -4,6 +4,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from '../reducers';
 import thunk from 'redux-thunk';
+import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 
 // Create store takes three parameters: http://redux.js.org/docs/api/createStore.html
 // 1. Root reducer
@@ -11,10 +12,10 @@ import thunk from 'redux-thunk';
 // 3. Enhancer function
 export default function configureStore(initialState) {
   let store = createStore(rootReducer, initialState, compose(
-        applyMiddleware(thunk),
-        window.devToolsExtension ? window.devToolsExtension() : f => f //add support for Redux dev tools
-      )
-    );
+    applyMiddleware(thunk, reduxImmutableStateInvariant()),
+    window.devToolsExtension ? window.devToolsExtension() : f => f //add support for Redux dev tools, if enabled. Otherwise, do nothing.
+    )
+  );
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
