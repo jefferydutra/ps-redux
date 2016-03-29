@@ -18,7 +18,7 @@ const CourseList = ({courses, deleteCourse}) => {
 				{courses.map( (course) => {
 					return (
 						<tr key={course.id}>
-							<td><a href={course.watchHref}>Watch</a></td>
+							<td><a href={course.watchHref} target="_blank">Watch</a></td>
 							<td><a href="#" onClick={(event) => deleteCourse(event, course.id)}>Delete</a></td>
 							<td><Link to={'/course/' + course.id}>{course.title}</Link></td>
 							<td>{course.authorId}</td>
