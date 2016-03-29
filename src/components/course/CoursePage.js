@@ -22,6 +22,7 @@ class CoursePage extends React.Component {
   }
 
   render() {
+    const {courses} = this.props;
     return (
       <div>
         <h1>Courses</h1>
@@ -32,10 +33,10 @@ class CoursePage extends React.Component {
           all parsed as JS */}
         <input type="submit" value="Add Course" className="btn btn-primary" onClick={() => {browserHistory.push('/course');}} />
         {
-          this.props.courses.length > 0 &&
+          courses.length > 0 &&
           <CourseList
             deleteCourse={this.deleteCourse.bind(this)}
-            courses={this.props.courses}/>
+            courses={courses}/>
         }
       </div>
     );
