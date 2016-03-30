@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import { Link } from 'react-router';
+import CourseListRow from './CourseListRow';
 
 const CourseList = ({courses, deleteCourse}) => {
 	return (
@@ -15,19 +15,9 @@ const CourseList = ({courses, deleteCourse}) => {
 				</tr>
 			</thead>
 			<tbody>
-				{
-          courses.map( (course) => {
-            return (
-              <tr key={course.id}>
-                <td><a href={course.watchHref} target="_blank">Watch</a></td>
-                <td><a href="#" onClick={(event) => deleteCourse(event, course.id)}>Delete</a></td>
-                <td><Link to={'/course/' + course.id}>{course.title}</Link></td>
-                <td>{course.authorId}</td>
-                <td>{course.category}</td>
-                <td>{course.length}</td>
-              </tr>);
-            })
-				}
+				{courses.map(course =>
+          <CourseListRow key={course.id} course={course} deleteCourse={deleteCourse} />
+        )}
 			</tbody>
 		</table>
 	);

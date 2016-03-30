@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import AuthorListRow from './AuthorListRow';
 
 const AuthorList = ({authors, deleteAuthor}) => {
   return (
@@ -12,17 +12,9 @@ const AuthorList = ({authors, deleteAuthor}) => {
         </tr>
       </thead>
       <tbody>
-        {
-          authors.map((author) => {
-            return (
-              <tr key={author.id}>
-                <td><a href="#" onClick={(event) => deleteAuthor(event, author.id)}>Delete</a></td>
-                <td><Link to={'/author/' + author.id}>{author.id}</Link></td>
-                <td>{author.firstName} {author.lastName}</td>
-              </tr>
-            );
-          })
-        }
+        {authors.map(author =>
+          <AuthorListRow key={author.id} author={author} deleteAuthor={deleteAuthor}/>
+        )}
       </tbody>
     </table>
   );
