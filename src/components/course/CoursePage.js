@@ -9,6 +9,13 @@ import notie from 'notie';
 //Note that this is a controller view, which is why it gets data
 //and passes it down to child components via props.
 class CoursePage extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+    
+    this.deleteCourse = this.deleteCourse.bind(this);
+    this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
+  }
+
   componentWillMount() {
     if (!this.props.coursesLoaded) {
       this.props.actions.loadCourses();
@@ -21,6 +28,10 @@ class CoursePage extends React.Component {
     notie.alert(1, 'Course deleted.');
   }
 
+  redirectToAddCoursePage() {
+    browserHistory.push('/course');
+  }
+
   render() {
     const {courses} = this.props;
     return (
@@ -31,11 +42,11 @@ class CoursePage extends React.Component {
           Also, note the structure of this comment, have to
           create an empty JS expression to comment since this is
           all parsed as JS */}
-        <input type="submit" value="Add Course" className="btn btn-primary" onClick={() => {browserHistory.push('/course');}} />
+        <input type="submit" value="Add Course" className="btn btn-primary" onClick={this.redirectToAddCoursePage} />
         {
           courses.length > 0 &&
           <CourseList
-            deleteCourse={this.deleteCourse.bind(this)}
+            deleteCourse={this.deleteCourse}
             courses={courses}/>
         }
       </div>
