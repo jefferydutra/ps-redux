@@ -27,6 +27,10 @@ class ManageAuthorPage extends React.Component {
         this.populateForm(authorId);
       }
     } else {
+      // Option 1 - Use Dispatch directly
+      //this.props.dispatch(authorActions.loadAuthors()).then( () => {
+
+      // Option 2 - Use bound actions
       this.props.loadAuthors().then( () => {
         if (authorId) {
           this.populateForm(authorId);
@@ -129,6 +133,7 @@ ManageAuthorPage.propTypes = {
   createAuthor: PropTypes.func.isRequired,
   updateAuthor: PropTypes.func.isRequired,
   //actions: PropTypes.object.isRequired,
+  //dispatch: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired
 };
@@ -143,11 +148,14 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  // return {
-  //   actions: bindActionCreators(authorActions, dispatch)
-  // };
+  // OPTION 1: Use dispatch directly in components.
+  // Don't wrap action creators in dispatch.
+  // Pass dispatch down to child components
+  // But then you have to call dispatch in child components.
+  // Example:
+  // dispatch(authorActions.loadAuthors()).then( () => {
 
-  // Manually wrapping action creators
+  // OPTION 2: Manually wrap action creators
   // in dispatch calls to show an alternative
   // to bindActionCreators
   return {
@@ -156,8 +164,10 @@ function mapDispatchToProps(dispatch) {
     updateAuthor: author => dispatch(authorActions.updateAuthor(author))
   };
 
-  // Or, final option: Don't even wrap.
-  // But then you have to call dispatch in child components.
+  // OPTION 3: bindActionCreators
+  // return {
+  //   actions: bindActionCreators(authorActions, dispatch)
+  // };
 }
 
 const connectedManageAuthorPage = connect(
