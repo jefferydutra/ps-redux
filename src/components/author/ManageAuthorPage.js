@@ -17,6 +17,9 @@ class ManageAuthorPage extends React.Component {
       author: { id: '', firstName: '', lastName: '' },
       errors: {}
     };
+
+    this.setAuthorState = this.setAuthorState.bind(this);
+    this.saveAuthor = this.saveAuthor.bind(this);
   }
 
   componentWillMount() {
@@ -119,8 +122,8 @@ class ManageAuthorPage extends React.Component {
 		return (
 			<AuthorForm
 				author={this.state.author}
-				onChange={this.setAuthorState.bind(this)}
-				onSave={this.saveAuthor.bind(this)}
+				onChange={this.setAuthorState}
+				onSave={this.saveAuthor}
 				errors={this.state.errors} />
 		);
 	}

@@ -17,6 +17,9 @@ class ManageCoursePage extends React.Component {
       course: { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' },
       errors: {}
     };
+
+    this.updateCourseState = this.updateCourseState.bind(this);
+    this.saveCourse = this.saveCourse.bind(this);
   }
 
   componentWillMount() {
@@ -128,8 +131,8 @@ class ManageCoursePage extends React.Component {
     return (
       <CourseForm
         course={this.state.course}
-        onChange={this.updateCourseState.bind(this)}
-        onSave={this.saveCourse.bind(this)}
+        onChange={this.updateCourseState}
+        onSave={this.saveCourse}
         allAuthors={this.getAuthorsFormattedForDropdown()}
         errors={this.state.errors} />
     );
