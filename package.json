@@ -56,7 +56,6 @@
     "nock": "7.7.2",
     "npm-run-all": "1.6.0",
     "open": "0.0.5",
-    "redbox-react": "1.2.2",
     "redux-immutable-state-invariant": "1.2.2",
     "redux-mock-store": "1.0.2",
     "rimraf": "2.5.2",
