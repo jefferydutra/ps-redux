@@ -7,6 +7,13 @@ import AuthorList from './AuthorList';
 import notie from 'notie';
 
 class AuthorPage extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.deleteAuthor = this.deleteAuthor.bind(this);
+    this.redirectToAddAuthorPage = this.redirectToAddAuthorPage.bind(this);
+  }
+
   componentWillMount() {
     if (!this.props.authorsLoaded) {
       this.props.loadAuthors();
@@ -19,17 +26,21 @@ class AuthorPage extends Component {
     notie.alert(1, 'Author deleted :(');
   }
 
+  redirectToAddAuthorPage() {
+    browserHistory.push('/author');
+  }
+
   render() {
     const {authors} = this.props;
     return (
       <div>
         <h1>Authors</h1>
-        <input type="submit" value="Add Author" className="btn btn-primary" onClick={() => {browserHistory.push('/author');}} />
+        <input type="submit" value="Add Author" className="btn btn-primary" onClick={this.redirectToAddAuthorPage} />
         {
           authors.length > 0 &&
             <AuthorList
               authors={authors}
-              deleteAuthor={this.deleteAuthor.bind(this)}/>
+              deleteAuthor={this.deleteAuthor}/>
         }
       </div>
     );
