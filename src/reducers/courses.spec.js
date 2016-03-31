@@ -1,5 +1,5 @@
 import expect from 'expect';
-import courseReducer from './courseReducer';
+import courses from './courses';
 import * as actions from '../actions/courseActions';
 
 describe('Course Reducer', () => {
@@ -14,7 +14,7 @@ describe('Course Reducer', () => {
     const action = actions.createdCourse(newcourse);
 
     //act
-    const newState = courseReducer(initialState, action);
+    const newState = courses(initialState, action);
 
     //assert
     expect(newState.courses.length).toEqual(3);
@@ -35,7 +35,7 @@ describe('Course Reducer', () => {
     const action = actions.deletedCourse(deletedcourseId);
 
     //act
-    const newState = courseReducer(initialState, action);
+    const newState = courses(initialState, action);
 
     //assert
     expect(newState.courses.length).toEqual(1);
@@ -56,7 +56,7 @@ describe('Course Reducer', () => {
     const action = actions.updatedCourse(course);
 
     //act
-    const newState = courseReducer(initialState, action);
+    const newState = courses(initialState, action);
     const updatedcourse = newState.courses.find(a => a.id == course.id);
     const untouchedcourse = newState.courses.find(a => a.id == 'A');
 
@@ -81,7 +81,7 @@ describe('Course Reducer', () => {
     const action = actions.loadedCourses(coursesToLoad);
 
     //act
-    const newState = courseReducer(initialState, action);
+    const newState = courses(initialState, action);
     const numcoursesLoaded = newState.courses.length;
 
     //assert

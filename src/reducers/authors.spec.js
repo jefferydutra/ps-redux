@@ -1,5 +1,5 @@
 import expect from 'expect';
-import authorReducer from './authorReducer';
+import authors from './authors';
 import * as actions from '../actions/authorActions';
 
 describe('Author Reducer', () => {
@@ -14,7 +14,7 @@ describe('Author Reducer', () => {
     const action = actions.createdAuthor(newAuthor);
 
     //act
-    const newState = authorReducer(initialState, action);
+    const newState = authors(initialState, action);
 
     //assert
     expect(newState.authors.length).toEqual(3);
@@ -35,7 +35,7 @@ describe('Author Reducer', () => {
     const action = actions.deletedAuthor(deletedAuthorId);
 
     //act
-    const newState = authorReducer(initialState, action);
+    const newState = authors(initialState, action);
 
     //assert
     expect(newState.authors.length).toEqual(1);
@@ -56,7 +56,7 @@ describe('Author Reducer', () => {
     const action = actions.updatedAuthor(author);
 
     //act
-    const newState = authorReducer(initialState, action);
+    const newState = authors(initialState, action);
     const updatedAuthor = newState.authors.find(a => a.id == author.id);
     const untouchedAuthor = newState.authors.find(a => a.id == 'A');
 
@@ -81,7 +81,7 @@ describe('Author Reducer', () => {
     const action = actions.loadedAuthors(authorsToLoad);
 
     //act
-    const newState = authorReducer(initialState, action);
+    const newState = authors(initialState, action);
     const numAuthorsLoaded = newState.authors.length;
 
     //assert

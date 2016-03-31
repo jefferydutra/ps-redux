@@ -55,7 +55,7 @@ AuthorPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return state.authorReducer;
+  return state.authors;
 }
 
 function mapDispatchToProps(dispatch) {

@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import authorReducer from './authorReducer';
-import courseReducer from './courseReducer';
-import loadingStatusReducer from './loadingStatusReducer';
+import authors from './authors';
+import courses from './courses';
+import loadingStatus from './loadingStatus';
 
 const rootReducer = combineReducers({
-  authorReducer,
-  courseReducer,
-  loadingStatusReducer,
+  authors,
+  courses,
+  loadingStatus,
   routing
 });
 

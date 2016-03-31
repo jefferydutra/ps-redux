@@ -11,7 +11,7 @@ import notie from 'notie';
 class CoursePage extends React.Component {
   constructor(props, context) {
     super(props, context);
-    
+
     this.deleteCourse = this.deleteCourse.bind(this);
     this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
   }
@@ -61,7 +61,7 @@ CoursePage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return state.courseReducer;
+  return state.courses;
 }
 
 function mapDispatchToProps(dispatch) {

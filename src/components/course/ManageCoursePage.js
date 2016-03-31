@@ -130,13 +130,14 @@ class ManageCoursePage extends React.Component {
         onChange={this.updateCourseState}
         onSave={this.saveCourse}
         allAuthors={this.getAuthorsFormattedForDropdown()}
+        loading={this.props.loading}
         errors={this.state.errors} />
     );
   }
 }
 
 ManageCoursePage.propTypes = {
-  actions: PropTypes.object,
+  // State
   courses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -150,10 +151,14 @@ ManageCoursePage.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired
   })),
+  loading: PropTypes.bool.isRequired,
   authorsLoaded: PropTypes.bool.isRequired,
   coursesLoaded: PropTypes.bool.isRequired,
   params: PropTypes.object,
-  route: PropTypes.object.isRequired
+  route: PropTypes.object.isRequired,
+
+  // Actions
+  actions: PropTypes.object.isRequired
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -163,10 +168,11 @@ ManageCoursePage.contextTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    courses: state.courseReducer.courses,
-    authors: state.authorReducer.authors,
-    authorsLoaded: state.authorReducer.authorsLoaded,
-    coursesLoaded: state.courseReducer.coursesLoaded
+    courses: state.courses.courses,
+    authors: state.authors.authors,
+    authorsLoaded: state.authors.authorsLoaded,
+    coursesLoaded: state.courses.coursesLoaded,
+    loading: state.loadingStatus.ajaxCallsInProgress > 0
   };
 }
 

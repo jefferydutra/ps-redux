@@ -119,20 +119,25 @@ class ManageAuthorPage extends React.Component {
 				author={this.state.author}
 				onChange={this.setAuthorState}
 				onSave={this.saveAuthor}
-				errors={this.state.errors} />
+				errors={this.state.errors}
+        loading={this.props.loading}  />
 		);
 	}
 }
 
 ManageAuthorPage.propTypes = {
+  // State
   authors: PropTypes.array.isRequired,
   authorsLoaded: PropTypes.bool.isRequired,
-  loadAuthors: PropTypes.func.isRequired,
-  saveAuthor: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  params: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
+
+  // Actions
   //actions: PropTypes.object.isRequired,
   //dispatch: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired
+  loadAuthors: PropTypes.func.isRequired,
+  saveAuthor: PropTypes.func.isRequired
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -141,7 +146,15 @@ ManageAuthorPage.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return state.authorReducer;
+  return {
+    authors: state.authors.authors,
+    authorsLoaded: state.authors.authorsLoaded,
+    loading: state.loadingStatus.ajaxCallsInProgress > 0
+  };
+  // Example of how to get a URL segment via ownProps.
+    // Not actually used, just showing how.
+    //urlSegment: ownProps.location.pathname.substring(1)
+  //};
 }
 
 function mapDispatchToProps(dispatch) {
