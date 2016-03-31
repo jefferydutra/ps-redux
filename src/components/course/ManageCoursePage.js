@@ -185,9 +185,8 @@ function mapDispatchToProps(dispatch) {
   // Example:
   // dispatch(authorActions.loadAuthors())
 
-  // OPTION 2: Manually wrap action creators
-  // in dispatch calls to show an alternative
-  // to bindActionCreators
+  // OPTION 2: Manually wrap action creators in dispatch
+  // calls to show an alternative to bindActionCreators
   // return {
   //   loadCourses: () => dispatch(loadCourses()),
   //   saveCourse: course => dispatch(saveCourse(course)),
@@ -195,6 +194,7 @@ function mapDispatchToProps(dispatch) {
   // };
 
   // OPTION 3: bindActionCreators
+  // In this case, all the actions in each actions file are bound and available.
   return {
     courseActions: bindActionCreators(courseActions, dispatch),
     authorActions: bindActionCreators(authorActions, dispatch)
