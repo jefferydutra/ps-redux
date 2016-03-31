@@ -26,7 +26,7 @@ class ManageCoursePage extends React.Component {
     const courseId = this.props.params.id; // from the path `/course/:id`
 
     if (!this.props.authorsLoaded) {
-      this.props.actions.loadAuthors();
+      this.props.authorActions.loadAuthors();
     }
 
     if (this.props.coursesLoaded) {
@@ -34,7 +34,7 @@ class ManageCoursePage extends React.Component {
         this.populateForm(courseId);
       }
     } else {
-      this.props.actions.loadCourses().then(() => {
+      this.props.courseActions.loadCourses().then(() => {
         if (courseId) {
           this.populateForm(courseId);
         }
@@ -100,7 +100,7 @@ class ManageCoursePage extends React.Component {
     // Waiting for promise to resolve before redirecting and notifying since the
     // course ID is generated via the API. Otherwise, would see course plop
     // in after the redirect.
-    this.props.actions.saveCourse(this.state.course)
+    this.props.courseActions.saveCourse(this.state.course)
       .then( () => this.redirectAndNotify() )
       .catch( error => alert(error) );
   }
@@ -158,7 +158,8 @@ ManageCoursePage.propTypes = {
   route: PropTypes.object.isRequired,
 
   // Actions
-  actions: PropTypes.object.isRequired
+  courseActions: PropTypes.object.isRequired,
+  authorActions: PropTypes.object.isRequired
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -177,16 +178,14 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = Object.assign({},
-    bindActionCreators(courseActions, dispatch),
-    bindActionCreators(authorActions, dispatch)
-  );
+  // OPTION 1: Use dispatch directly in components.
+  // Don't wrap action creators in dispatch.
+  // Pass dispatch down to child components
+  // But then you have to call dispatch at the call site.
+  // Example:
+  // dispatch(authorActions.loadAuthors())
 
-  return {
-    actions: actions
-  };
-
-  // Manually wrapping action creators
+  // OPTION 2: Manually wrap action creators
   // in dispatch calls to show an alternative
   // to bindActionCreators
   // return {
@@ -194,6 +193,12 @@ function mapDispatchToProps(dispatch) {
   //   saveCourse: course => dispatch(saveCourse(course)),
   //   loadAuthors: () => dispatch(loadAuthors());
   // };
+
+  // OPTION 3: bindActionCreators
+  return {
+    courseActions: bindActionCreators(courseActions, dispatch),
+    authorActions: bindActionCreators(authorActions, dispatch)
+  };
 }
 
 const connectedManageCoursePage = connect(
