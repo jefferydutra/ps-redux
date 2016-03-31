@@ -190,18 +190,9 @@ function mapDispatchToProps(dispatch) {
   // in dispatch calls to show an alternative
   // to bindActionCreators
   // return {
-  //   loadCourses: () => {
-  //     dispatch(loadCourses());
-  //   },
-  //   createCourse: (course) => {
-  //     dispatch(createCourse(course));
-  //   },
-  //   updateCourse: (course) => {
-  //     dispatch(updateCourse(course));
-  //   },
-  //   loadAuthors: () => {
-  //     dispatch(loadAuthors());
-  //   }
+  //   loadCourses: () => dispatch(loadCourses()),
+  //   saveCourse: course => dispatch(saveCourse(course)),
+  //   loadAuthors: () => dispatch(loadAuthors());
   // };
 }
 
