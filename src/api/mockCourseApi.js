@@ -67,30 +67,36 @@ class CourseApi {
   }
 
   static saveCourse(course) {
-    if (course.id) {
-      const existingCourseIndex = courses.findIndex(a => a.id == course.id);
-      courses.splice(existingCourseIndex, 1, course);
-    } else {
-      //Just simulating creation here.
-      //The server would generate ids and watchHref's for new courses in a real app.
-      //Cloning so copy returned is passed by value rather than by reference.
-      course.id = generateId(course);
-      course.watchHref = `http://www.pluralsight.com/courses/${course.id}`;
-      courses.push(course);
-    }
-
     return new Promise( (resolve, reject) => {
       setTimeout(() => {
+        // Simulate server-side validation
+        const minCourseTitleLength = 5;
+        if (course.title.length < minCourseTitleLength) {
+          reject(`Title must be at least ${minCourseTitleLength} characters.`);
+        }
+
+        if (course.id) {
+          const existingCourseIndex = courses.findIndex(a => a.id == course.id);
+          courses.splice(existingCourseIndex, 1, course);
+        } else {
+          //Just simulating creation here.
+          //The server would generate ids and watchHref's for new courses in a real app.
+          //Cloning so copy returned is passed by value rather than by reference.
+          course.id = generateId(course);
+          course.watchHref = `http://www.pluralsight.com/courses/${course.id}`;
+          courses.push(course);
+        }
+
         resolve(Object.assign({}, course));
       }, delay);
     });
   }
 
   static deleteCourse(courseId) {
-    const indexOfCourseToDelete = courses.findIndex(course => { course.courseId == courseId; } );
     return new Promise( (resolve, reject) => {
-      courses.splice(indexOfCourseToDelete, 1);
       setTimeout(() => {
+        const indexOfCourseToDelete = courses.findIndex(course => { course.courseId == courseId; } );
+        courses.splice(indexOfCourseToDelete, 1);
         resolve();
       }, delay);
     });
