@@ -97,16 +97,12 @@ class ManageCoursePage extends React.Component {
 
     this.formIsDirty = false;
 
-    if (this.state.course.id) {
-      this.props.actions.updateCourse(this.state.course);
-      this.redirectAndNotify();
-    } else {
-      // Waiting for promise to resolve before redirecting and notifying since the
-      // course ID is generated via the API. Otherwise, would see course plop
-      // in after the redirect.
-      this.props.actions.createCourse(this.state.course)
-        .then( () => this.redirectAndNotify() );
-    }
+    // Waiting for promise to resolve before redirecting and notifying since the
+    // course ID is generated via the API. Otherwise, would see course plop
+    // in after the redirect.
+    this.props.actions.saveCourse(this.state.course)
+      .then( () => this.redirectAndNotify() )
+      .catch( error => alert(error) );
   }
 
   redirectAndNotify() {

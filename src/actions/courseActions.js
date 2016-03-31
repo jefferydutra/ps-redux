@@ -18,50 +18,41 @@ export function deletedCourse(id) {
 	return { type: types.DELETED_COURSE, id };
 }
 
-export function handleError(error) {
-  console.error(error); //eslint-disable-line no-console
-}
-
 // Functions below handle asynchronous calls.
 // Each returns a function that accepts a dispatch.
 // These are used by redux-thunk to support asynchronous interactions.
 export function loadCourses() {
 	return function(dispatch) {
 		dispatch(loading());
-		return CourseApi.getAllCourses().then(function(courses) {
+		return CourseApi.getAllCourses().then( courses => {
 			dispatch(loadedCourses(courses));
       dispatch(loadingComplete());
-    }).catch(handleError);
-	};
-}
-
-export function createCourse(course) {
-	return function(dispatch) {
-		dispatch(loading());
-		return CourseApi.saveCourse(course).then(function(course) {
-			dispatch(createdCourse(course));
+    }).catch( error => {
       dispatch(loadingComplete());
-    }).catch(handleError);
-	};
+      throw(error);
+    });	};
 }
 
-//Can show how I can do it optimistically. Currently the slow way.
-export function updateCourse(course) {
+export function saveCourse(course) {
 	return function(dispatch) {
 		dispatch(loading());
-		return CourseApi.saveCourse(course).then(function(course) {
-          dispatch(updatedCourse(course));
-          dispatch(loadingComplete());
-        }).catch(handleError);
-	};
+		return CourseApi.saveCourse(course).then( course => {
+      course.id ? dispatch(updatedCourse(course)) : dispatch(createdCourse(course));
+      dispatch(loadingComplete());
+    }).catch( error => {
+      dispatch(loadingComplete());
+      throw(error);
+    });
+  };
 }
 
-//Note that deletion is optimistic.
-//All actions above could (and arguably should) do the same
-//It's a design decision.
+// Optimistically deleting for perceived performance
+// Note that there's no loading action dispatched
+// Since the UI will be immediately updated
+// The user will only be notified if there's an error.
 export function deleteCourse(courseId) {
 	return function(dispatch) {
     dispatch(deletedCourse(courseId));
-		return CourseApi.deleteCourse(courseId).catch(handleError);
+		return CourseApi.deleteCourse(courseId);
 	};
 }

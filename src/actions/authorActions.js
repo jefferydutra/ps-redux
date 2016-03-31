@@ -20,45 +20,42 @@ export function deletedAuthor(id) {
 	return { type: types.DELETED_AUTHOR, id };
 }
 
-export function handleError(error) {
-  console.error(error); //eslint-disable-line no-console
-}
-
 // Functions below are called thunks. They handle asynchronous calls.
 // Each returns a function that accepts dispatch.
 // These are used by redux-thunk to support asynchronous interactions.
 export function loadAuthors() {
   return dispatch => {
     dispatch(loading());
-    return AuthorApi.getAllAuthors().then(function(authors) {
+    return AuthorApi.getAllAuthors().then( authors => {
       dispatch(loadedAuthors(authors));
       dispatch(loadingComplete());
-    }).catch(handleError);
+    }).catch( error => {
+      dispatch(loadingComplete());
+      throw(error);
+    });
   };
 }
 
-export function createAuthor(author) {
+export function saveAuthor(author) {
   return dispatch => {
     dispatch(loading());
-    return AuthorApi.saveAuthor(author).then(function(author) {
-      dispatch(createdAuthor(author));
+    return AuthorApi.saveAuthor(author).then( author => {
+      author.id ? dispatch(updatedAuthor(author)) : dispatch(createdAuthor(author));
       dispatch(loadingComplete());
-    }).catch(handleError);
-  };
-}
-
-// Optimistically updating authors for perceived performance.
-export function updateAuthor(author) {
-  return dispatch => {
-    dispatch(updatedAuthor(author));
-    return AuthorApi.saveAuthor(author).catch(handleError);
+    }).catch( error => {
+      dispatch(loadingComplete());
+      throw(error);
+    });
   };
 }
 
 // Optimistically deleting for perceived performance
+// Note that there's no loading action dispatched
+// Since the UI will be immediately updated
+// The user will only be notified if there's an error.
 export function deleteAuthor(authorId) {
   return dispatch => {
     dispatch(deletedAuthor(authorId));
-    return AuthorApi.deleteAuthor(authorId).catch(handleError);
+    return AuthorApi.deleteAuthor(authorId);
   };
 }
