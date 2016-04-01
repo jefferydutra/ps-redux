@@ -4,7 +4,7 @@ import * as courseActions from '../../actions/courseActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CourseForm from './CourseForm';
-import notie from 'notie';
+import toastr from 'toastr';
 
 class ManageCoursePage extends React.Component {
   constructor(props, context) {
@@ -27,6 +27,7 @@ class ManageCoursePage extends React.Component {
 
     if (!this.props.authorsLoaded) {
       this.props.authorActions.loadAuthors();
+      //this.props.dispatch(authorActions.loadAuthors());
     }
 
     if (this.props.coursesLoaded) {
@@ -35,6 +36,7 @@ class ManageCoursePage extends React.Component {
       }
     } else {
       this.props.courseActions.loadCourses().then(() => {
+      //this.props.dispatch(courseActions.loadCourses()).then(() => {
         if (courseId) {
           this.populateForm(courseId);
         }
@@ -101,20 +103,21 @@ class ManageCoursePage extends React.Component {
     // course ID is generated via the API. Otherwise, would see course plop
     // in after the redirect.
     this.props.courseActions.saveCourse(this.state.course)
+    //this.props.dispatch(courseActions.saveCourse(this.state.course))
       .then( () => this.redirectAndNotify() )
       .catch( error => alert(error) );
   }
 
   redirectAndNotify() {
-    notie.alert(1, 'Course saved.');
+    toastr.success('Course saved.');
     this.context.router.push('/courses');
   }
 
-  //This is a centralized change handler
-  //Could have validate method delegate to this
-  //This is useful for elements that want validation
-  //onBlur instead of onChange (which is where the validate
-  //function is typically mapped)
+  // This is a centralized change handler
+  // Could have validate method delegate to this
+  // This is useful for elements that want validation
+  // onBlur instead of onChange (which is where the validate
+  // function is typically mapped)
   updateCourseState(event) {
     this.formIsDirty = true;
     const field = event.target.name;
@@ -129,6 +132,7 @@ class ManageCoursePage extends React.Component {
         course={this.state.course}
         onChange={this.updateCourseState}
         onSave={this.saveCourse}
+        //onSave={(course) => this.props.dispatch(this.saveCourse(course))}
         allAuthors={this.getAuthorsFormattedForDropdown()}
         loading={this.props.loading}
         errors={this.state.errors} />
@@ -178,7 +182,8 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  // OPTION 1: Use dispatch directly in components.
+  // OPTION 1: Don't pass this function to connect.
+  // Instead, use dispatch directly in components.
   // Don't wrap action creators in dispatch.
   // Pass dispatch down to child components
   // But then you have to call dispatch at the call site.
@@ -201,9 +206,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const connectedManageCoursePage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ManageCoursePage);
-
-export default connectedManageCoursePage;
+export default connect(mapStateToProps, mapDispatchToProps)(ManageCoursePage);
