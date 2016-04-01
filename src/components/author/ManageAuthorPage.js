@@ -3,7 +3,7 @@ import * as authorActions from '../../actions/authorActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AuthorForm from './AuthorForm';
-import notie from 'notie';
+import toastr from 'toastr';
 
 class ManageAuthorPage extends React.Component {
   constructor(props, context) {
@@ -110,7 +110,7 @@ class ManageAuthorPage extends React.Component {
 
   redirectAndNotify() {
     this.context.router.push('/authors');
-    notie.alert(1, 'Author saved.');
+    toastr.success('Author saved.');
   }
 
 	render() {

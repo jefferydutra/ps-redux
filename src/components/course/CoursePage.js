@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import CourseList from './CourseList';
-import notie from 'notie';
+import toastr from 'toastr';
 
 //Note that this is a controller view, which is why it gets data
 //and passes it down to child components via props.
@@ -25,7 +25,7 @@ class CoursePage extends React.Component {
   deleteCourse(event, courseId) {
     event.preventDefault();
     this.props.actions.deleteCourse(courseId);
-    notie.alert(1, 'Course deleted.');
+    toastr.success('Course deleted.');
   }
 
   redirectToAddCoursePage() {
