@@ -7,7 +7,10 @@ class App extends React.Component {
   render() {
     return (
       <div className="container-fluid">
-        <Header loading={this.props.loading}/>
+        <Header
+          loading={this.props.loading}
+          authorCount={this.props.authorCount}
+          courseCount={this.props.courseCount} />
         {this.props.children}
       </div>
     );
@@ -16,17 +19,17 @@ class App extends React.Component {
 
 App.propTypes = {
   children: PropTypes.object.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  authorCount: PropTypes.number.isRequired,
+  courseCount: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
   return {
-    loading: state.loadingStatus.ajaxCallsInProgress > 0
+    loading: state.loadingStatus.ajaxCallsInProgress > 0,
+    authorCount: state.authors.authors.length,
+    courseCount: state.courses.courses.length
   };
 }
 
-const connectedApp = connect(
-  mapStateToProps
-)(App);
-
-export default connectedApp;
+export default connect(mapStateToProps)(App);
