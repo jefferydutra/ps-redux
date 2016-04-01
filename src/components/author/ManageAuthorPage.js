@@ -179,9 +179,4 @@ function mapDispatchToProps(dispatch) {
   // };
 }
 
-const connectedManageAuthorPage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ManageAuthorPage);
-
-export default connectedManageAuthorPage;
+export default connect(mapStateToProps, mapDispatchToProps)(ManageAuthorPage);

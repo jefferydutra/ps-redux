@@ -74,9 +74,4 @@ function mapDispatchToProps(dispatch) {
   // since you now expose all the actions under an actions object.
 }
 
-const connectedAuthorPage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AuthorPage);
-
-export default connectedAuthorPage;
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorPage);

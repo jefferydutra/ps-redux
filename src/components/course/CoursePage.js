@@ -70,9 +70,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const connectedCoursePage = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CoursePage);
-
-export default connectedCoursePage;
+export default connect(mapStateToProps, mapDispatchToProps)(CoursePage);
