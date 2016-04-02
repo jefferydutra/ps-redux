@@ -141,7 +141,7 @@ class ManageCoursePage extends React.Component {
 }
 
 ManageCoursePage.propTypes = {
-  // State
+  // Data
   courses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -158,7 +158,7 @@ ManageCoursePage.propTypes = {
   loading: PropTypes.bool.isRequired,
   authorsLoaded: PropTypes.bool.isRequired,
   coursesLoaded: PropTypes.bool.isRequired,
-  params: PropTypes.object,
+  params: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
 
   // Actions

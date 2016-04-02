@@ -126,7 +126,7 @@ class ManageAuthorPage extends React.Component {
 }
 
 ManageAuthorPage.propTypes = {
-  // State
+  // Data
   authors: PropTypes.array.isRequired,
   authorsLoaded: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
