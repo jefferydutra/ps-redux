@@ -37,8 +37,9 @@ class CoursePage extends React.Component {
     return (
       <div>
         <h1>Courses</h1>
-        {/* Note that I have to create an anonymous function
-          or the click handler will immediately fire!
+        {/* Note that I don't create an anonymous function
+          for the onclick because creating functions
+          in render should be avoided for performance.
           Also, note the structure of this comment, have to
           create an empty JS expression to comment since this is
           all parsed as JS */}
@@ -58,9 +59,12 @@ class CoursePage extends React.Component {
 }
 
 CoursePage.propTypes = {
-  actions: PropTypes.object.isRequired,
+  // Data
   courses: PropTypes.array.isRequired,
-  coursesLoaded: PropTypes.bool.isRequired
+  coursesLoaded: PropTypes.bool.isRequired,
+
+  // Actions
+  actions: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
