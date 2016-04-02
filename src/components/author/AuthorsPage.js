@@ -14,12 +14,6 @@ class AuthorPage extends Component {
     this.redirectToAddAuthorPage = this.redirectToAddAuthorPage.bind(this);
   }
 
-  componentWillMount() {
-    if (!this.props.authorsLoaded) {
-      this.props.loadAuthors();
-    }
-  }
-
   deleteAuthor(event, authorId) {
     event.preventDefault();
     this.props.deleteAuthor(authorId);
@@ -50,24 +44,20 @@ class AuthorPage extends Component {
 AuthorPage.propTypes = {
   // Data
   authors: PropTypes.array.isRequired,
-  authorsLoaded: PropTypes.bool.isRequired,
 
   // Actions
-  deleteAuthor: PropTypes.func.isRequired,
-  loadAuthors: PropTypes.func.isRequired
+  deleteAuthor: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
   return {
-    authors: state.authors,
-    authorsLoaded: state.authorsLoaded
+    authors: state.authors
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadAuthors: () => dispatch(authorActions.loadAuthors()),
-    deleteAuthor: (authorId) => dispatch(authorActions.deleteAuthor(authorId))
+    deleteAuthor: authorId => dispatch(authorActions.deleteAuthor(authorId))
   };
 
   //alternative:

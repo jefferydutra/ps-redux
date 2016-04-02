@@ -14,32 +14,12 @@ class ManageAuthorPage extends React.Component {
     this.formIsDirty = false;
 
     this.state = {
-      author: { id: '', firstName: '', lastName: '' },
+      author: this.props.author,
       errors: {}
     };
 
     this.setAuthorState = this.setAuthorState.bind(this);
     this.saveAuthor = this.saveAuthor.bind(this);
-  }
-
-  componentWillMount() {
-    const authorId = this.props.params.id; // from the path '/author:id'
-
-    if (this.props.authorsLoaded) {
-      if (authorId) {
-        this.populateForm(authorId);
-      }
-    } else {
-      // Option 1 - Use Dispatch directly
-      //this.props.dispatch(authorActions.loadAuthors()).then( () => {
-
-      // Option 2 - Use bound actions
-      this.props.loadAuthors().then( () => {
-        if (authorId) {
-          this.populateForm(authorId);
-        }
-      });
-    }
   }
 
 	componentDidMount() {
@@ -48,17 +28,14 @@ class ManageAuthorPage extends React.Component {
 		router.setRouteLeaveHook(route, this.routerWillLeave.bind(this));
 	}
 
+  componentWillReceiveProps() {
+    this.setState({author: this.props.author});
+  }
+
   routerWillLeave(nextLocation) {
     if (this.formIsDirty) {
       return 'Leave without saving?';
     }
-  }
-
-  populateForm(authorId) {
-    const author = this.props.authors.find( (author) => author.id == authorId);
-    // NOTE: Must deep copy here or immutableStateInvariant will get cranky
-    // because we're trying to mutate state
-    this.setState({author: Object.assign({}, author) });
   }
 
 	setAuthorState(event) {
@@ -127,8 +104,7 @@ class ManageAuthorPage extends React.Component {
 
 ManageAuthorPage.propTypes = {
   // Data
-  authors: PropTypes.array.isRequired,
-  authorsLoaded: PropTypes.bool.isRequired,
+  author: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
@@ -136,7 +112,6 @@ ManageAuthorPage.propTypes = {
   // Actions
   //actions: PropTypes.object.isRequired,
   //dispatch: PropTypes.object.isRequired,
-  loadAuthors: PropTypes.func.isRequired,
   saveAuthor: PropTypes.func.isRequired
 };
 
@@ -146,15 +121,18 @@ ManageAuthorPage.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  const authorId = ownProps.params.id; // from the path `/author/:id`
+
+  let author = { id: '', firstName: '', lastName: '' };
+
+  if (state.authors.length > 0 && authorId) {
+    author = state.authors.filter(author => author.id == authorId)[0];
+  }
+
   return {
-    authors: state.authors,
-    authorsLoaded: state.authorsLoaded,
+    author: author,
     loading: state.ajaxCallsInProgress > 0
   };
-  // Example of how to get a URL segment via ownProps.
-    // Not actually used, just showing how.
-    //urlSegment: ownProps.location.pathname.substring(1)
-  //};
 }
 
 function mapDispatchToProps(dispatch) {
@@ -169,7 +147,6 @@ function mapDispatchToProps(dispatch) {
   // in dispatch calls to show an alternative
   // to bindActionCreators
   return {
-    loadAuthors: () => dispatch(authorActions.loadAuthors()),
     saveAuthor: author => dispatch(authorActions.saveAuthor(author))
   };
 

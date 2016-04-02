@@ -4,19 +4,12 @@ export function sortByTitle(courses) {
   return courses.sort((a, b) => a.title > b.title);
 }
 
-export function coursesLoaded(state = false, action) {
-  if (action.type == types.LOADED_COURSES) {
-    return true;
-  }
-  return state;
-}
-
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
 // State is considered immutable. Instead,
 // create a copy of the state passed and set new values on the copy.
 // Note that I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export function courses(state = [], action) {
+export default function courses(state = [], action) {
   switch (action.type) {
     case types.LOADED_COURSES:
       return sortByTitle(action.courses);

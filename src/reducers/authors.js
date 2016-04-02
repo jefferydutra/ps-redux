@@ -4,19 +4,12 @@ function sortByName(authors) {
   return authors.sort((a, b) => a.firstName > b.firstName);
 }
 
-export function authorsLoaded(state = false, action) {
-  if (action.type == types.LOADED_AUTHORS) {
-    return true;
-  }
-  return state;
-}
-
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
 // State is considered immutable. Instead,
 // return an updated copy of the state.
 // I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export function authors(state = [], action) {
+export default function authors(state = [], action) {
   switch (action.type) {
     case types.LOADED_AUTHORS:
       return sortByName(action.authors);

@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react';
-import * as authorActions from '../../actions/authorActions';
 import * as courseActions from '../../actions/courseActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -14,34 +13,12 @@ class ManageCoursePage extends React.Component {
     this.formIsDirty = false;
 
     this.state = {
-      course: { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' },
+      course: this.props.course,
       errors: {}
     };
 
     this.updateCourseState = this.updateCourseState.bind(this);
     this.saveCourse = this.saveCourse.bind(this);
-  }
-
-  componentWillMount() {
-    const courseId = this.props.params.id; // from the path `/course/:id`
-
-    if (!this.props.authorsLoaded) {
-      this.props.authorActions.loadAuthors();
-      //this.props.dispatch(authorActions.loadAuthors());
-    }
-
-    if (this.props.coursesLoaded) {
-      if (courseId) {
-        this.populateForm(courseId);
-      }
-    } else {
-      this.props.courseActions.loadCourses().then(() => {
-      //this.props.dispatch(courseActions.loadCourses()).then(() => {
-        if (courseId) {
-          this.populateForm(courseId);
-        }
-      });
-    }
   }
 
   componentDidMount() {
@@ -50,17 +27,14 @@ class ManageCoursePage extends React.Component {
     router.setRouteLeaveHook(route, this.routerWillLeave.bind(this));
   }
 
+  componentWillReceiveProps() {
+    this.setState({course: this.props.course});
+  }
+
   routerWillLeave(nextLocation) {
     if (this.formIsDirty) {
       return 'Leave without saving?';
     }
-  }
-
-  populateForm(courseId) {
-    const course = this.props.courses.find((course) => course.id == courseId);
-    // NOTE: Must deep copy here or immutableStateInvariant will get cranky
-    // because we're trying to mutate state
-    this.setState({course: Object.assign({}, course)});
   }
 
   getAuthorsFormattedForDropdown() {
@@ -102,7 +76,7 @@ class ManageCoursePage extends React.Component {
     // Waiting for promise to resolve before redirecting and notifying since the
     // course ID is generated via the API. Otherwise, would see course plop
     // in after the redirect.
-    this.props.courseActions.saveCourse(this.state.course)
+    this.props.actions.saveCourse(this.state.course)
     //this.props.dispatch(courseActions.saveCourse(this.state.course))
       .then( () => this.redirectAndNotify() )
       .catch( error => alert(error) );
@@ -142,28 +116,25 @@ class ManageCoursePage extends React.Component {
 
 ManageCoursePage.propTypes = {
   // Data
-  courses: PropTypes.arrayOf(PropTypes.shape({
+  course: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     watchHref: PropTypes.string.isRequired,
     authorId: PropTypes.string.isRequired,
     length: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired
-  })),
+  }).isRequired,
   authors: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired
   })),
   loading: PropTypes.bool.isRequired,
-  authorsLoaded: PropTypes.bool.isRequired,
-  coursesLoaded: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
 
   // Actions
-  courseActions: PropTypes.object.isRequired,
-  authorActions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired
 };
 
 //Pull in the React Router context so router is available on this.context.router.
@@ -172,11 +143,17 @@ ManageCoursePage.contextTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  const courseId = ownProps.params.id; // from the path `/course/:id`
+
+  let course = { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' };
+
+  if (state.courses.length > 0 && courseId) {
+    course = state.courses.filter(course => course.id == courseId)[0];
+  }
+
   return {
-    courses: state.courses,
+    course: course,
     authors: state.authors,
-    authorsLoaded: state.authorsLoaded,
-    coursesLoaded: state.coursesLoaded,
     loading: state.ajaxCallsInProgress > 0
   };
 }
@@ -188,21 +165,18 @@ function mapDispatchToProps(dispatch) {
   // Pass dispatch down to child components
   // But then you have to call dispatch at the call site.
   // Example:
-  // dispatch(authorActions.loadAuthors())
+  // dispatch(courseActions.saveCourse())
 
   // OPTION 2: Manually wrap action creators in dispatch
   // calls to show an alternative to bindActionCreators
   // return {
-  //   loadCourses: () => dispatch(loadCourses()),
   //   saveCourse: course => dispatch(saveCourse(course)),
-  //   loadAuthors: () => dispatch(loadAuthors());
   // };
 
   // OPTION 3: bindActionCreators
   // In this case, all the actions in each actions file are bound and available.
   return {
-    courseActions: bindActionCreators(courseActions, dispatch),
-    authorActions: bindActionCreators(authorActions, dispatch)
+    actions: bindActionCreators(courseActions, dispatch)
   };
 }
 

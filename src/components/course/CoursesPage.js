@@ -16,12 +16,6 @@ class CoursePage extends React.Component {
     this.redirectToAddCoursePage = this.redirectToAddCoursePage.bind(this);
   }
 
-  componentWillMount() {
-    if (!this.props.coursesLoaded) {
-      this.props.actions.loadCourses();
-    }
-  }
-
   deleteCourse(event, courseId) {
     event.preventDefault();
     this.props.actions.deleteCourse(courseId);
@@ -61,7 +55,6 @@ class CoursePage extends React.Component {
 CoursePage.propTypes = {
   // Data
   courses: PropTypes.array.isRequired,
-  coursesLoaded: PropTypes.bool.isRequired,
 
   // Actions
   actions: PropTypes.object.isRequired
@@ -69,8 +62,7 @@ CoursePage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    courses: state.courses,
-    coursesLoaded: state.coursesLoaded
+    courses: state.courses
   };
 }
 

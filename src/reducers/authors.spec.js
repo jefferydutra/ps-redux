@@ -1,5 +1,5 @@
 import expect from 'expect';
-import {authors} from './authors';
+import authors from './authors';
 import * as actions from '../actions/authorActions';
 
 describe('Author Reducer', () => {

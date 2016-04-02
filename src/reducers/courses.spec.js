@@ -1,5 +1,5 @@
 import expect from 'expect';
-import {courses} from './courses';
+import courses from './courses';
 import * as actions from '../actions/courseActions';
 
 describe('Course Reducer', () => {
