@@ -147,9 +147,9 @@ ManageAuthorPage.contextTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    authors: state.authors.authors,
-    authorsLoaded: state.authors.authorsLoaded,
-    loading: state.loadingStatus.ajaxCallsInProgress > 0
+    authors: state.authors,
+    authorsLoaded: state.authorsLoaded,
+    loading: state.ajaxCallsInProgress > 0
   };
   // Example of how to get a URL segment via ownProps.
     // Not actually used, just showing how.

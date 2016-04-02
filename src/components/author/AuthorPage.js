@@ -48,14 +48,20 @@ class AuthorPage extends Component {
 }
 
 AuthorPage.propTypes = {
-  loadAuthors: PropTypes.func.isRequired,
+  // Data
+  authors: PropTypes.array.isRequired,
   authorsLoaded: PropTypes.bool.isRequired,
+
+  // Actions
   deleteAuthor: PropTypes.func.isRequired,
-  authors: PropTypes.array.isRequired
+  loadAuthors: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
-  return state.authors;
+  return {
+    authors: state.authors,
+    authorsLoaded: state.authorsLoaded
+  };
 }
 
 function mapDispatchToProps(dispatch) {

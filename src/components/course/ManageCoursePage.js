@@ -173,11 +173,11 @@ ManageCoursePage.contextTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    courses: state.courses.courses,
-    authors: state.authors.authors,
-    authorsLoaded: state.authors.authorsLoaded,
-    coursesLoaded: state.courses.coursesLoaded,
-    loading: state.loadingStatus.ajaxCallsInProgress > 0
+    courses: state.courses,
+    authors: state.authors,
+    authorsLoaded: state.authorsLoaded,
+    coursesLoaded: state.coursesLoaded,
+    loading: state.ajaxCallsInProgress > 0
   };
 }
 

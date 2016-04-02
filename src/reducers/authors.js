@@ -1,12 +1,14 @@
 import * as types from '../constants/actionTypes';
 
-const initialState = {
-  authors: [],
-  authorsLoaded: false
-};
-
-export function sortByName(authors) {
+function sortByName(authors) {
   return authors.sort((a, b) => a.firstName > b.firstName);
+}
+
+export function authorsLoaded(state = false, action) {
+  if (action.type == types.LOADED_AUTHORS) {
+    return true;
+  }
+  return state;
 }
 
 // IMPORTANT: Note that with Redux, state should NEVER be changed.
@@ -14,37 +16,28 @@ export function sortByName(authors) {
 // return an updated copy of the state.
 // I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function authors(state = initialState, action) {
+export function authors(state = [], action) {
   switch (action.type) {
     case types.LOADED_AUTHORS:
-      return Object.assign({}, state, {
-        authors: sortByName(action.authors),
-        authorsLoaded: true
-      });
+      return sortByName(action.authors);
 
     case types.CREATED_AUTHOR:
       //newState = Object.assign({}, state, { loading: false });
       //newState.authors.push(action.author);
       //return newState;
-     return Object.assign({}, state, {
-       authors: sortByName([
-         ...state.authors,
+     return sortByName([
+         ...state,
          action.author
-       ])
-     });
+       ]);
 
     case types.UPDATED_AUTHOR:
-      return Object.assign({}, state, {
-        authors: sortByName([
-          ...state.authors.filter((author) => author.id !== action.author.id),
-          action.author
-        ])
-      });
+      return sortByName([
+        ...state.filter((author) => author.id !== action.author.id),
+        action.author
+      ]);
 
     case types.DELETED_AUTHOR:
-      return Object.assign({}, state, {
-        authors: state.authors.filter((author) => author.id !== action.id)
-      });
+      return state.filter((author) => author.id !== action.id);
 
 		default:
 			return state;

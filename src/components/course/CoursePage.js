@@ -42,7 +42,10 @@ class CoursePage extends React.Component {
           Also, note the structure of this comment, have to
           create an empty JS expression to comment since this is
           all parsed as JS */}
-        <input type="submit" value="Add Course" className="btn btn-primary" onClick={this.redirectToAddCoursePage} />
+        <input type="submit"
+               value="Add Course"
+               className="btn btn-primary"
+               onClick={this.redirectToAddCoursePage} />
         {
           courses.length > 0 &&
           <CourseList
@@ -61,7 +64,10 @@ CoursePage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  return state.courses;
+  return {
+    courses: state.courses,
+    coursesLoaded: state.coursesLoaded
+  };
 }
 
 function mapDispatchToProps(dispatch) {

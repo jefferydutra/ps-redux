@@ -1,36 +1,36 @@
 import expect from 'expect';
-import courses from './courses';
+import {courses} from './courses';
 import * as actions from '../actions/courseActions';
 
 describe('Course Reducer', () => {
   it('should add course in alphabetical order', () => {
     //arrange
-    const initialState = { courses: [
+    const initialState = [
       { title: 'A' },
       { title: 'C' }
-    ] };
-    const newcourse = { title: 'B' };
+    ];
 
-    const action = actions.createdCourse(newcourse);
+    const newCourse = { title: 'B' };
+
+    const action = actions.createdCourse(newCourse);
 
     //act
     const newState = courses(initialState, action);
 
     //assert
-    expect(newState.courses.length).toEqual(3);
-    expect(newState.courses[0].title).toEqual('A');
-    expect(newState.courses[1].title).toEqual('B');
-    expect(newState.courses[2].title).toEqual('C');
+    expect(newState.length).toEqual(3);
+    expect(newState[0].title).toEqual('A');
+    expect(newState[1].title).toEqual('B');
+    expect(newState[2].title).toEqual('C');
   });
 
   it('should remove course', () => {
     //arrange
-    const initialState = {
-      courses: [
+    const initialState = [
         { id: 1 },
         { id: 2 }
-      ]
-    };
+      ];
+
     const deletedcourseId = 2;
     const action = actions.deletedCourse(deletedcourseId);
 
@@ -38,18 +38,16 @@ describe('Course Reducer', () => {
     const newState = courses(initialState, action);
 
     //assert
-    expect(newState.courses.length).toEqual(1);
+    expect(newState.length).toEqual(1);
   });
 
   it('should update course and sort alphabetically', () => {
     //arrange
-    const initialState = {
-      courses: [
+    const initialState = [
         { id: 'A', title: 'A' },
         { id: 'B', title: 'B' },
         { id: 'C', title: 'C' }
-      ]
-    };
+      ];
 
     //Changing course's name from B to Z to test sorting.
     const course = { id: 'B', title: 'Z' };
@@ -57,20 +55,20 @@ describe('Course Reducer', () => {
 
     //act
     const newState = courses(initialState, action);
-    const updatedcourse = newState.courses.find(a => a.id == course.id);
-    const untouchedcourse = newState.courses.find(a => a.id == 'A');
+    const updatedCourse = newState.find(a => a.id == course.id);
+    const untouchedCourse = newState.find(a => a.id == 'A');
 
     //assert
-    expect(updatedcourse.title).toEqual('Z');
-    expect(untouchedcourse.title).toEqual('A');
-    expect(newState.courses[0].title).toEqual('A');
-    expect(newState.courses[1].title).toEqual('C');
-    expect(newState.courses[2].title).toEqual('Z');
+    expect(updatedCourse.title).toEqual('Z');
+    expect(untouchedCourse.title).toEqual('A');
+    expect(newState[0].title).toEqual('A');
+    expect(newState[1].title).toEqual('C');
+    expect(newState[2].title).toEqual('Z');
   });
 
   it('should load courses in alphabetical order', () => {
     //arrange
-    const initialState = { courses: [] };
+    const initialState = [];
 
     const coursesToLoad = [
       { title: 'B' },
@@ -82,12 +80,12 @@ describe('Course Reducer', () => {
 
     //act
     const newState = courses(initialState, action);
-    const numcoursesLoaded = newState.courses.length;
+    const numCoursesLoaded = newState.length;
 
     //assert
-    expect(numcoursesLoaded).toEqual(3);
-    expect(newState.courses[0].title).toEqual('A');
-    expect(newState.courses[1].title).toEqual('B');
-    expect(newState.courses[2].title).toEqual('C');
+    expect(numCoursesLoaded).toEqual(3);
+    expect(newState[0].title).toEqual('A');
+    expect(newState[1].title).toEqual('B');
+    expect(newState[2].title).toEqual('C');
   });
 });

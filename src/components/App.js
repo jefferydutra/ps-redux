@@ -26,9 +26,9 @@ App.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    loading: state.loadingStatus.ajaxCallsInProgress > 0,
-    authorCount: state.authors.authors.length,
-    courseCount: state.courses.courses.length
+    authorCount: state.authors.length,
+    courseCount: state.courses.length,
+    loading: state.ajaxCallsInProgress > 0
   };
 }
 
