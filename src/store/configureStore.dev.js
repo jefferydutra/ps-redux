@@ -12,8 +12,8 @@ import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 // 3. Enhancer function
 export default function configureStore(initialState) {
   let store = createStore(rootReducer, initialState, compose(
-    applyMiddleware(thunk, reduxImmutableStateInvariant()),
-    window.devToolsExtension ? window.devToolsExtension() : f => f //add support for Redux dev tools, if enabled. Otherwise, do nothing.
+      applyMiddleware(thunk, reduxImmutableStateInvariant()),
+      window.devToolsExtension ? window.devToolsExtension() : f => f //add support for Redux dev tools browser extension, if enabled. Otherwise, do nothing.
     )
   );
 
