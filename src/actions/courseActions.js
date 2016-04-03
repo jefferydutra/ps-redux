@@ -52,7 +52,10 @@ export function saveCourse(course) {
 // The user will only be notified if there's an error.
 export function deleteCourse(courseId) {
 	return function(dispatch) {
-    dispatch(deletedCourse(courseId));
-		return CourseApi.deleteCourse(courseId);
+    dispatch(loading());
+		return CourseApi.deleteCourse(courseId).then( () => {
+      dispatch(deletedCourse(courseId));
+      dispatch(loadingComplete());
+    });
 	};
 }
