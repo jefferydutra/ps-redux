@@ -1,3 +1,5 @@
+import delay from './delay';
+
 // This file mocks a web API by working with the hard-coded data below.
 // It uses setTimeout to simulate the delay of an AJAX call.
 // All calls return promises.
@@ -43,10 +45,6 @@ const	courses = [
 		category: "HTML5"
 	}
 ];
-
-// Using setTimeout to simulate the delay of an AJAX call.
-// This configures the amount of delay.
-const delay = 1000;
 
 function replaceAll(str, find, replace) {
   return str.replace(new RegExp(find, 'g'), replace);

@@ -1,3 +1,5 @@
+import delay from './delay';
+
 // This file mocks a web API by working with the hard-coded data below.
 // It uses setTimeout to simulate the delay of an AJAX call.
 // All calls return promises.
@@ -18,10 +20,6 @@ const	authors =	[
     lastName: 'Wahlin'
   }
 ];
-
-// Using setTimeout to simulate the delay of an AJAX call.
-// This configures the amount of delay.
-const delay = 1000;
 
 //This would be performed on the server in a real app. Just stubbing in.
 const generateId = (author) => {
