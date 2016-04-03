@@ -3,6 +3,7 @@ import * as courseActions from '../../actions/courseActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CourseForm from './CourseForm';
+import NotFoundPage from '../NotFoundPage';
 import toastr from 'toastr';
 
 class ManageCoursePage extends React.Component {
@@ -13,8 +14,9 @@ class ManageCoursePage extends React.Component {
     this.formIsDirty = false;
 
     this.state = {
-      course: this.props.course,
-      errors: {}
+      course: Object.assign({}, this.props.course),
+      errors: {},
+      saving: false
     };
 
     this.updateCourseState = this.updateCourseState.bind(this);
@@ -25,10 +27,6 @@ class ManageCoursePage extends React.Component {
     const route = this.props.route;
     const router = this.context.router;
     router.setRouteLeaveHook(route, this.routerWillLeave.bind(this));
-  }
-
-  componentWillReceiveProps() {
-    this.setState({course: this.props.course});
   }
 
   routerWillLeave(nextLocation) {
@@ -72,6 +70,7 @@ class ManageCoursePage extends React.Component {
     }
 
     this.formIsDirty = false;
+    this.setState({saving: true});
 
     // Waiting for promise to resolve before redirecting and notifying since the
     // course ID is generated via the API. Otherwise, would see course plop
@@ -83,6 +82,7 @@ class ManageCoursePage extends React.Component {
   }
 
   redirectAndNotify() {
+    this.setState({saving: false});
     toastr.success('Course saved.');
     this.context.router.push('/courses');
   }
@@ -101,6 +101,9 @@ class ManageCoursePage extends React.Component {
   }
 
   render() {
+    if (this.props.display404) return <NotFoundPage/>;
+    if (this.state.loading && !this.state.saving) return null;
+
     return (
       <CourseForm
         course={this.state.course}
@@ -128,8 +131,9 @@ ManageCoursePage.propTypes = {
     id: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired
-  })),
+  })).isRequired,
   loading: PropTypes.bool.isRequired,
+  display404: PropTypes.bool.isRequired,
   params: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
 
@@ -142,19 +146,28 @@ ManageCoursePage.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
+function getCourseById(courses, id) {
+  const course = courses.filter(course => course.id == id);
+  if (course) return course[0]; //since filter returns an array, have to grab the first.
+  return null;
+}
+
 function mapStateToProps(state, ownProps) {
   const courseId = ownProps.params.id; // from the path `/course/:id`
-
+  let display404 = false;
   let course = { id: '', watchHref: '', title: '', authorId: '', length: '', category: '' };
 
-  if (state.courses.length > 0 && courseId) {
-    course = state.courses.filter(course => course.id == courseId)[0];
+  if (courseId && state.courses.length > 0) {
+    course = getCourseById(state.courses, courseId);
+    if (!course) display404 = true;
   }
 
+  // Note that I can leave the right-hand side off in ES6 if it matches the left.
   return {
-    course: course,
+    course,
     authors: state.authors,
-    loading: state.ajaxCallsInProgress > 0
+    loading: state.ajaxCallsInProgress > 0,
+    display404
   };
 }
 
