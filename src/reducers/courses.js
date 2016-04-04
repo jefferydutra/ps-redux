@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import initialState from '../constants/initialState';
 
 export function sortByTitle(courses) {
   return courses.sort((a, b) => a.title > b.title);
@@ -9,7 +10,7 @@ export function sortByTitle(courses) {
 // create a copy of the state passed and set new values on the copy.
 // Note that I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function courses(state = [], action) {
+export default function courses(state = initialState.courses, action) {
   switch (action.type) {
     case types.LOADED_COURSES:
       return sortByTitle(action.courses);
