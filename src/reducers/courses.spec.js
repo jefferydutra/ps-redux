@@ -38,7 +38,7 @@ describe('Course Reducer', () => {
     const newCourseInNewState = newState.find(course => course.title == 'B');
     newCourseInNewState.title = 'C';
 
-    // assert that the object passed into course reducer wasn't manipulated
+    // assert that the object reference passed into course reducer wasn't manipulated
     expect(newCourse.title).toEqual('B');
   });
 
