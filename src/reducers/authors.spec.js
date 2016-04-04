@@ -4,7 +4,7 @@ import * as actions from '../actions/authorActions';
 
 describe('Author Reducer', () => {
   it('should add author in alphabetical order', () => {
-    //arrange
+    // arrange
     const initialState = [
       { firstName: 'A' },
       { firstName: 'C' }
@@ -13,14 +13,33 @@ describe('Author Reducer', () => {
 
     const action = actions.createdAuthor(newAuthor);
 
-    //act
+    // act
     const newState = authors(initialState, action);
 
-    //assert
+    // assert
     expect(newState.length).toEqual(3);
     expect(newState[0].firstName).toEqual('A');
     expect(newState[1].firstName).toEqual('B');
     expect(newState[2].firstName).toEqual('C');
+  });
+
+  it('should create a new object when creating a new author', () => {
+    // arrange
+    const initialState = [
+      { firstName: 'A'}
+    ];
+
+    const newAuthor = { firstName: 'B' };
+    const action = actions.createdAuthor(newAuthor);
+
+    // act
+    const newState = authors(initialState, action);
+    const newAuthorInNewState = newState.find(author => author.firstName == 'B');
+    newAuthorInNewState.firstName = 'C';
+
+    // assert that the object passed into authors reducer wasn't manipulated
+    expect(newAuthor.firstName).toEqual('B');
+    expect(newAuthorInNewState.firstName).toEqual('C');
   });
 
   it('should remove author', () => {
@@ -41,7 +60,7 @@ describe('Author Reducer', () => {
   });
 
   it('should update author and sort alphabetically', () => {
-    //arrange
+    // arrange
     const initialState = [
         { id: 'A', firstName: 'A' },
         { id: 'B', firstName: 'B' },
@@ -52,12 +71,12 @@ describe('Author Reducer', () => {
     const author = { id: 'B', firstName: 'Z' };
     const action = actions.updatedAuthor(author);
 
-    //act
+    // act
     const newState = authors(initialState, action);
     const updatedAuthor = newState.find(a => a.id == author.id);
     const untouchedAuthor = newState.find(a => a.id == 'A');
 
-    //assert
+    // assert
     expect(updatedAuthor.firstName).toEqual('Z');
     expect(untouchedAuthor.firstName).toEqual('A');
     expect(newState[0].firstName).toEqual('A');
@@ -66,7 +85,7 @@ describe('Author Reducer', () => {
   });
 
   it('should load authors in alphabetical order', () => {
-    //arrange
+    // arrange
     const initialState = [];
 
     const authorsToLoad = [
@@ -77,11 +96,11 @@ describe('Author Reducer', () => {
 
     const action = actions.loadedAuthors(authorsToLoad);
 
-    //act
+    // act
     const newState = authors(initialState, action);
     const numAuthorsLoaded = newState.length;
 
-    //assert
+    // assert
     expect(numAuthorsLoaded).toEqual(3);
     expect(newState[0].firstName).toEqual('A');
     expect(newState[1].firstName).toEqual('B');
