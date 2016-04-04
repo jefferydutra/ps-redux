@@ -29,6 +29,17 @@ class ManageCoursePage extends React.Component {
     router.setRouteLeaveHook(route, this.routerWillLeave.bind(this));
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Necessary or you'll see the old state flash back in before redirect
+    // because componentWillReceive props runs sometimes even when props haven't
+    // changed See this for more info:
+    // https://facebook.github.io/react/blog/2016/01/08/A-implies-B-does-not-imply-B-implies-A.html.
+    if (this.props.course.id != nextProps.course.id) {
+      // Necessary to populate form when existing course is loaded directly.
+      this.setState({course: Object.assign({}, nextProps.course)});
+    }
+  }
+
   routerWillLeave(nextLocation) {
     if (this.formIsDirty) {
       return 'Leave without saving?';

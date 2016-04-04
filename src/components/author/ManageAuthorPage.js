@@ -30,6 +30,17 @@ class ManageAuthorPage extends React.Component {
 		router.setRouteLeaveHook(route, this.routerWillLeave.bind(this));
 	}
 
+  componentWillReceiveProps(nextProps) {
+    // Necessary or you'll see the old state flash back in before redirect
+    // because componentWillReceive props runs sometimes even when props haven't
+    // changed See this for more info:
+    // https://facebook.github.io/react/blog/2016/01/08/A-implies-B-does-not-imply-B-implies-A.html.
+    if (this.props.author.id != nextProps.author.id) {
+      // Necessary to populate form when existing author is loaded directly.
+      this.setState({author: Object.assign({}, nextProps.author)});
+    }
+  }
+  
   routerWillLeave(nextLocation) {
     if (this.formIsDirty) {
       return 'Leave without saving?';
