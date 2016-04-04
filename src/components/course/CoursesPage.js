@@ -8,7 +8,7 @@ import toastr from 'toastr';
 
 //Note that this is a controller view, which is why it gets data
 //and passes it down to child components via props.
-class CoursePage extends React.Component {
+class CoursesPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -52,7 +52,7 @@ class CoursePage extends React.Component {
   }
 }
 
-CoursePage.propTypes = {
+CoursesPage.propTypes = {
   // Data
   courses: PropTypes.array.isRequired,
 
@@ -72,4 +72,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursePage);
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);

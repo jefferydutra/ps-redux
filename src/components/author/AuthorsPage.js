@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import AuthorList from './AuthorList';
 import toastr from 'toastr';
 
-class AuthorPage extends Component {
+class AuthorsPage extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -41,7 +41,7 @@ class AuthorPage extends Component {
   }
 }
 
-AuthorPage.propTypes = {
+AuthorsPage.propTypes = {
   // Data
   authors: PropTypes.array.isRequired,
 
@@ -70,4 +70,4 @@ function mapDispatchToProps(dispatch) {
   // since you now expose all the actions under an actions object.
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthorPage);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthorsPage);
