@@ -15,7 +15,10 @@ export default function courses(state = [], action) {
       return sortByTitle(action.courses);
 
     case types.CREATED_COURSE:
-      return sortByTitle([...state, action.course]);
+      return sortByTitle([
+        ...state,
+        Object.assign({}, action.course)
+      ]);
 
     case types.UPDATED_COURSE:
       // Alternative approach.
@@ -24,7 +27,7 @@ export default function courses(state = [], action) {
       // newState.courses.splice(existingAuthorIndex, 1, action.course);
       return sortByTitle([
         ...state.filter(course => course.id !== action.course.id),
-        action.course
+        Object.assign({}, action.course)
       ]);
 
     case types.DELETED_COURSE:

@@ -20,13 +20,13 @@ export default function authors(state = [], action) {
       //return newState;
      return sortByName([
          ...state,
-         action.author
+         Object.assign({}, action.author)
        ]);
 
     case types.UPDATED_AUTHOR:
       return sortByName([
         ...state.filter((author) => author.id !== action.author.id),
-        action.author
+        Object.assign({}, action.author)
       ]);
 
     case types.DELETED_AUTHOR:
