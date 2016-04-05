@@ -10,7 +10,7 @@ function sortByName(authors) {
 // return an updated copy of the state.
 // I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function authors(state = initialState.authors, action) {
+export default function authorReducer(state = initialState.authors, action) {
   switch (action.type) {
     case types.LOADED_AUTHORS:
       return sortByName(action.authors);

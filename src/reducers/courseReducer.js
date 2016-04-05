@@ -1,3 +1,9 @@
+// Some people name their reducers without a reducer suffix.
+// I prefer to use the suffix to help separate their name from
+// React components. There's often a React component by the same
+// name otherwise. I don't wan't to have two files named courses.js
+// in my project. And since I can alias the name within my rootReducer,
+// the longer filename doesn't impact the rest of my code.
 import * as types from '../constants/actionTypes';
 import initialState from '../constants/initialState';
 
@@ -10,7 +16,7 @@ export function sortByTitle(courses) {
 // create a copy of the state passed and set new values on the copy.
 // Note that I'm using Object.assign to create a copy of current state
 // and update values on the copy.
-export default function courses(state = initialState.courses, action) {
+export default function courseReducer(state = initialState.courses, action) {
   switch (action.type) {
     case types.LOADED_COURSES:
       return sortByTitle(action.courses);

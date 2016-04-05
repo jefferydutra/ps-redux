@@ -1,5 +1,5 @@
 import expect from 'expect';
-import courses from './courses';
+import courseReducer from './courseReducer';
 import * as actions from '../actions/courseActions';
 
 describe('Course Reducer', () => {
@@ -15,7 +15,7 @@ describe('Course Reducer', () => {
     const action = actions.createdCourse(newCourse);
 
     // act
-    const newState = courses(initialState, action);
+    const newState = courseReducer(initialState, action);
 
     // assert
     expect(newState.length).toEqual(3);
@@ -34,7 +34,7 @@ describe('Course Reducer', () => {
     const action = actions.createdCourse(newCourse);
 
     // act
-    const newState = courses(initialState, action);
+    const newState = courseReducer(initialState, action);
     const newCourseInNewState = newState.find(course => course.title == 'B');
     newCourseInNewState.title = 'C';
 
@@ -53,7 +53,7 @@ describe('Course Reducer', () => {
     const action = actions.deletedCourse(deletedcourseId);
 
     // act
-    const newState = courses(initialState, action);
+    const newState = courseReducer(initialState, action);
 
     // assert
     expect(newState.length).toEqual(1);
@@ -72,7 +72,7 @@ describe('Course Reducer', () => {
     const action = actions.updatedCourse(course);
 
     // act
-    const newState = courses(initialState, action);
+    const newState = courseReducer(initialState, action);
     const updatedCourse = newState.find(a => a.id == course.id);
     const untouchedCourse = newState.find(a => a.id == 'A');
 
@@ -97,7 +97,7 @@ describe('Course Reducer', () => {
     const action = actions.loadedCourses(coursesToLoad);
 
     // act
-    const newState = courses(initialState, action);
+    const newState = courseReducer(initialState, action);
     const numCoursesLoaded = newState.length;
 
     // assert
