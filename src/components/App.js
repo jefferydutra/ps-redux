@@ -1,16 +1,9 @@
 // This component handles the App template used on every page.
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {loadAuthors} from '../actions/authorActions';
-import {loadCourses} from '../actions/courseActions';
 import Header from './common/Header';
 
 class App extends React.Component {
-  componentWillMount() {
-    this.props.loadCourses();
-    this.props.loadAuthors();
-  }
-
   render() {
     return (
       <div className="container-fluid">
@@ -29,11 +22,7 @@ App.propTypes = {
   children: PropTypes.object.isRequired,
   loading: PropTypes.bool.isRequired,
   authorCount: PropTypes.number.isRequired,
-  courseCount: PropTypes.number.isRequired,
-
-  // Actions
-  loadAuthors: PropTypes.func.isRequired,
-  loadCourses: PropTypes.func.isRequired
+  courseCount: PropTypes.number.isRequired
 };
 
 function mapStateToProps(state, ownProps) {
@@ -44,11 +33,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    loadCourses: () => dispatch(loadCourses()),
-    loadAuthors: () => dispatch(loadAuthors())
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
