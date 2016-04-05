@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import * as authorActions from '../../actions/authorActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import AuthorList from './AuthorList';
 import toastr from 'toastr';
 
-class AuthorsPage extends Component {
+class AuthorsPage extends React.Component {
   constructor(props, context) {
     super(props, context);
 
