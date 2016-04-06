@@ -1,5 +1,5 @@
-import * as types from '../constants/actionTypes';
-import initialState from '../constants/initialState';
+import * as types from '../actions/actionTypes';
+import initialState from './initialState';
 
 function sortByName(authors) {
   return authors.sort((a, b) => a.firstName > b.firstName);
@@ -13,7 +13,9 @@ function sortByName(authors) {
 export default function authorReducer(state = initialState.authors, action) {
   switch (action.type) {
     case types.LOADED_AUTHORS:
-      return sortByName(action.authors);
+      // Note: Not sure if spread below is necessary
+      // Consider removing.
+      return sortByName([...action.authors]);
 
     case types.CREATED_AUTHOR:
       //newState = Object.assign({}, state, { loading: false });

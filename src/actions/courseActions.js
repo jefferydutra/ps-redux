@@ -1,5 +1,5 @@
 import CourseApi from '../api/mockCourseApi';
-import * as types from '../constants/actionTypes';
+import * as types from './actionTypes';
 import {loading, loadingComplete} from './loadingActions';
 
 export function loadedCourses(courses) {

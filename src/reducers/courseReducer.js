@@ -4,8 +4,8 @@
 // name otherwise. I don't wan't to have two files named courses.js
 // in my project. And since I can alias the name within my rootReducer,
 // the longer filename doesn't impact the rest of my code.
-import * as types from '../constants/actionTypes';
-import initialState from '../constants/initialState';
+import * as types from '../actions/actionTypes';
+import initialState from './initialState';
 
 export function sortByTitle(courses) {
   return courses.sort((a, b) => a.title > b.title);

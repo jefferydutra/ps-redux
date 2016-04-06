@@ -7,7 +7,7 @@ import { routerReducer as routing } from 'react-router-redux';
 // in mapStateToProps as state.courses instead of state.coursesReducer.
 import authors from './authorReducer';
 import courses from './courseReducer';
-import ajaxCallsInProgress from './ajaxCallsInProgressReducer';
+import ajaxCallsInProgress from './loadingReducer';
 
 const rootReducer = combineReducers({
   authors,
