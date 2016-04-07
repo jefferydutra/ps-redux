@@ -5,7 +5,6 @@ import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 const developmentEnvironment = 'development' ;
-const testEnvironment = 'test';
 const productionEnvironment = 'production';
 
 const getPlugins = function (env) {
@@ -73,7 +72,7 @@ function getConfig(env) {
     devtool: env === productionEnvironment  ? 'source-map' : 'cheap-module-eval-source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
     noInfo: true, // set to false to see a list of every file being bundled.
     entry: getEntry(env),
-    target: env === testEnvironment ? 'node' : 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
+    target: 'web',
     output: {
       path: __dirname + '/dist', // Note: Physical files are only output by the production build task `npm run build`.
       publicPath: '/',
